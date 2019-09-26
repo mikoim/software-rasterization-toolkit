@@ -21,26 +21,26 @@ Bitmap *BitmapNewImage(uint16_t width, uint16_t height) {
     return bitmap;
 }
 
-BitmapStatus BitmapDestroy(Bitmap *bitmap) {
+bool BitmapDestroy(Bitmap *bitmap) {
     free(bitmap->pixels);
     free(bitmap);
-    return BMP_OK; // TODO: implement error handler
+    return true; // TODO: implement error handler
 }
 
-BitmapStatus BitmapWriteFile(const Bitmap *bitmap, const char *filename) {
+bool BitmapWriteFile(const Bitmap *bitmap, const char *filename) {
     FILE *fp = fopen(filename, "w+");
     fwrite(&bitmap->fileHeader, sizeof(BITMAPFILEHEADER), 1, fp);
     fwrite(&bitmap->dibHeader, sizeof(BITMAPCOREHEADER), 1, fp);
     fwrite(bitmap->pixels, bitmap->fileHeader.bfSize - bitmap->fileHeader.bfOffBits, 1, fp);
     fclose(fp);
-    return BMP_OK; // TODO: implement error handler
+    return true; // TODO: implement error handler
 }
 
-BitmapStatus BitmapSetPixelColor(Bitmap *bitmap, uint16_t x, uint16_t y, const RGBTRIPLE *color) {
+bool BitmapSetPixelColor(Bitmap *bitmap, uint16_t x, uint16_t y, const RGBTRIPLE *color) {
     if (bitmap->dibHeader.bcWidth <= x || bitmap->dibHeader.bcHeight <= y) {
         fprintf(stderr, "%s: Invalid pixel indices (x:%d<%d, y:%d<%d)\n", __FUNCTION_NAME__, x, bitmap->dibHeader.bcWidth, y, bitmap->dibHeader.bcHeight);
-        return BMP_ERROR;
+        return false;
     }
     bitmap->pixels[x + bitmap->dibHeader.bcWidth * (bitmap->dibHeader.bcHeight - y -1)] = *color;
-    return BMP_OK;
+    return true;
 }

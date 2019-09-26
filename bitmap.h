@@ -6,11 +6,6 @@
 #define BMP_MAGIC 0x4d42
 #define BMP_COLOR(r, g, b) &(RGBTRIPLE){b, g, r}
 
-typedef enum {
-    BMP_ERROR = -1,
-    BMP_OK = 0
-} BitmapStatus;
-
 #pragma pack(push)
 #pragma pack(1)
 typedef struct {
@@ -43,8 +38,8 @@ typedef struct {
 } Bitmap;
 
 Bitmap *BitmapNewImage(uint16_t width, uint16_t height);
-BitmapStatus BitmapDestroy(Bitmap *bitmap);
-BitmapStatus BitmapWriteFile(const Bitmap *bitmap, const char *filename);
-BitmapStatus BitmapSetPixelColor(Bitmap *bitmap, uint16_t x, uint16_t y, const RGBTRIPLE *color);
+bool BitmapDestroy(Bitmap *bitmap);
+bool BitmapWriteFile(const Bitmap *bitmap, const char *filename);
+bool BitmapSetPixelColor(Bitmap *bitmap, uint16_t x, uint16_t y, const RGBTRIPLE *color);
 
 #endif //RENDER_BITMAP_H
