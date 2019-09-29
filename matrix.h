@@ -39,7 +39,15 @@ typedef struct {
   Real x,y,z;
 } Vector;
 
-Real VectorEuclideanDistance(const Vector *a, const Vector *b);
-bool VectorInsideTriangle(const Vector *p, const Vector *p0, const Vector *p1, const Vector *p2);
+void VectorPrint(const Vector *v);
+Vector VectorAddition(const Vector *v1, const Vector *v2);
+Vector VectorSubtraction(const Vector *v1, const Vector *v2);
+Vector VectorScalarMultiplication(const Vector *v, Real value);
+Vector VectorCrossProduct(const Vector *v1, const Vector *v2);
+Real VectorDotProduct(const Vector *v1, const Vector *v2);
+Real VectorEuclideanNorm(const Vector *v); // L2 norm
+Vector VectorL2Normalization(const Vector *v); // vector x divided by L2 norm
+Real VectorEuclideanDistance(const Vector *v1, const Vector *v2);
+bool VectorInsideTriangle(const Vector *v, const Vector *v1, const Vector *v2, const Vector *v3);
 
 #endif //RENDER_MATRIX_H
