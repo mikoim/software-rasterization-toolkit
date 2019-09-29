@@ -12,11 +12,11 @@ add_library(bitmap bitmap.c bitmap.h)
 add_library(matrix matrix.c matrix.h)
 target_link_libraries(matrix m)
 
-add_executable(bitmap_hue_scale bitmap_hue_scale.c)
-target_link_libraries(bitmap_hue_scale bitmap)
+add_executable(example_hue_scale example_hue_scale.c)
+target_link_libraries(example_hue_scale bitmap)
 
-add_executable(bitmap_triangle bitmap_triangle.c)
-target_link_libraries(bitmap_triangle bitmap matrix)
+add_executable(example_triangle example_triangle.c)
+target_link_libraries(example_triangle bitmap matrix)
 
 #add_executable(render main.c)
 #target_link_libraries(render bitmap matrix)
