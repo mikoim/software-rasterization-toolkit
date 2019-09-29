@@ -176,7 +176,7 @@ Real MatrixVectorEuclideanDistance(const Matrix *a, const Matrix *b) {
   }
   Real sum = 0;
   for (int row = 0; row < a->rows; ++row) {
-    const Real x = (MatrixGetElement(b, row, 0) - MatrixGetElement(a, row, 0), 2);
+    const Real x = MatrixGetElement(b, row, 0) - MatrixGetElement(a, row, 0);
     sum += x * x;
   }
   return sqrtl(sum);
