@@ -38,7 +38,7 @@ int main() {
   }
   {
     Vector a = VectorL2Normalization(&V(70, 90, 10));
-    Vector b = V(0.611593,0.786334,0.0873704);
+    Vector b = V(0.611593, 0.786334, 0.0873704);
     assert(VectorCompareLoose(&a, &b, 0.01));
   }
   {
