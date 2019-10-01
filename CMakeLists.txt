@@ -19,6 +19,9 @@ target_link_libraries(matrix m)
 add_library(vector vector.c vector.h)
 target_link_libraries(vector m)
 
+add_executable(matrix_test matrix_test.c)
+target_link_libraries(matrix_test matrix)
+
 add_executable(example_hue_scale example_hue_scale.c)
 target_link_libraries(example_hue_scale bitmap)
 

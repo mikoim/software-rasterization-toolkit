@@ -65,7 +65,7 @@ Matrix *MatrixClone(const Matrix *a) {
   return new;
 }
 
-Matrix *MatrixFromArray(uint32_t rows, uint32_t columns, Real array[rows][columns]) {
+Matrix *MatrixFromArray(uint32_t rows, uint32_t columns, const Real array[rows][columns]) {
   Matrix *new = MatrixZero(rows, columns);
   for (uint32_t row = 0; row < rows; ++row) {
     for (uint32_t col = 0; col < columns; ++col) {
@@ -90,6 +90,16 @@ Matrix *MatrixIdentity(uint32_t n) {
    */
   for (uint32_t index = 0; index < n; ++index) {
     MatrixSetElement(new, index, index, 1);
+  }
+  return new;
+}
+
+Matrix *MatrixTranspose(const Matrix *a) {
+  Matrix *new = MatrixZero(a->columns, a->rows);
+  for (uint32_t row = 0; row < a->columns; ++row) {
+    for (uint32_t col = 0; col < a->rows; ++col) {
+      MatrixSetElement(new, row, col, MatrixGetElement(a, col, row));
+    }
   }
   return new;
 }
@@ -167,33 +177,3 @@ Matrix *MatrixScalarSubtraction(const Matrix *a, Real value) { return _MatrixSca
 Matrix *MatrixScalarMultiplication(const Matrix *a, Real value) { return _MatrixScalarManipulation(a, '*', value); }
 
 Matrix *MatrixScalarDivision(const Matrix *a, Real value) { return _MatrixScalarManipulation(a, '/', value); }
-
-Real MatrixVectorEuclideanDistance(const Matrix *a, const Matrix *b) {
-  if (a->rows != b->rows || a->columns > 1 || b->columns > 1) {
-    fprintf(stderr, "%s: Invalid dimension (%dx\"%d\" == %dx\"%d\")\n", __FUNCTION_NAME__, a->rows, a->columns, b->rows, b->columns);
-    return 0;
-  }
-  Real sum = 0;
-  for (uint32_t row = 0; row < a->rows; ++row) {
-    const Real x = MatrixGetElement(b, row, 0) - MatrixGetElement(a, row, 0);
-    sum += x * x;
-  }
-  return sqrtl(sum);
-}
-
-bool MatrixVectorInsideTriangle(const Matrix *p, const Matrix *p0, const Matrix *p1, const Matrix *p2) {
-  int8_t sign = MatrixGetElement(p0, 0, 0) * MatrixGetElement(p1, 1, 0) + MatrixGetElement(p0, 1, 0) * MatrixGetElement(p2, 0, 0) +
-                            MatrixGetElement(p1, 0, 0) * MatrixGetElement(p2, 1, 0) <
-                        MatrixGetElement(p0, 1, 0) * MatrixGetElement(p1, 0, 0) + MatrixGetElement(p1, 1, 0) * MatrixGetElement(p2, 0, 0) +
-                            MatrixGetElement(p0, 0, 0) * MatrixGetElement(p2, 1, 0)
-                    ? -1
-                    : 1;
-  Real a = (MatrixGetElement(p0, 1, 0) * (MatrixGetElement(p2, 0, 0) - MatrixGetElement(p, 0, 0)) + MatrixGetElement(p2, 1, 0) * MatrixGetElement(p, 0, 0) -
-            MatrixGetElement(p2, 0, 0) * MatrixGetElement(p, 1, 0) + MatrixGetElement(p0, 0, 0) * (-MatrixGetElement(p2, 1, 0) + MatrixGetElement(p, 1, 0)));
-  Real b = (MatrixGetElement(p0, 1, 0) * (MatrixGetElement(p1, 0, 0) - MatrixGetElement(p, 0, 0)) + MatrixGetElement(p1, 1, 0) * MatrixGetElement(p, 0, 0) -
-            MatrixGetElement(p1, 0, 0) * MatrixGetElement(p, 1, 0) + MatrixGetElement(p0, 0, 0) * (-MatrixGetElement(p1, 1, 0) + MatrixGetElement(p, 1, 0)));
-  Real c = (MatrixGetElement(p1, 1, 0) * (MatrixGetElement(p2, 0, 0) - MatrixGetElement(p, 0, 0)) + MatrixGetElement(p2, 1, 0) * MatrixGetElement(p, 0, 0) -
-            MatrixGetElement(p2, 0, 0) * MatrixGetElement(p, 1, 0) + MatrixGetElement(p1, 0, 0) * (-MatrixGetElement(p2, 1, 0) + MatrixGetElement(p, 1, 0)));
-
-  return a * sign > 0 && b * sign < 0 && c * sign < 0;
-}
