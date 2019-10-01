@@ -219,7 +219,7 @@ Real VectorEuclideanNorm(const Vector *v) { return sqrtl(v->x * v->x + v->y * v-
 
 Vector VectorL2Normalization(const Vector *v) {
   Real norm = VectorEuclideanNorm(v);
-  return VectorScalarMultiplication(v, 1 / norm == 0 ? LDBL_MAX : norm);
+  return VectorScalarMultiplication(v, (Real)1 / (norm == 0 ? LDBL_MAX : norm));
 }
 
 Real VectorEuclideanDistance(const Vector *v1, const Vector *v2) {
