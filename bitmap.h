@@ -9,7 +9,7 @@
 
 #pragma pack(push)
 #pragma pack(1)
-typedef struct {
+typedef struct tagBITMAPFILEHEADER {
   uint16_t bfType;
   uint32_t bfSize;
   uint16_t bfReserved1;
@@ -17,7 +17,7 @@ typedef struct {
   uint32_t bfOffBits;
 } BITMAPFILEHEADER;
 
-typedef struct {
+typedef struct tagBITMAPCOREHEADER {
   uint32_t bcSize;
   uint16_t bcWidth;
   uint16_t bcHeight;
@@ -25,14 +25,14 @@ typedef struct {
   uint16_t bcBitCount;
 } BITMAPCOREHEADER;
 
-typedef struct {
+typedef struct tagRGBTRIPLE {
   uint8_t rgbtBlue;
   uint8_t rgbtGreen;
   uint8_t rgbtRed;
 } RGBTRIPLE;
 #pragma pack(pop)
 
-typedef struct {
+typedef struct tagBitmap {
   BITMAPFILEHEADER fileHeader;
   BITMAPCOREHEADER dibHeader;
   RGBTRIPLE *pixels; // bottom-up

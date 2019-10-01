@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-typedef struct {
+typedef struct tagMatrix {
   uint32_t rows;
   uint32_t columns;
   Real *matrix; // {{1,2,3},{4,5,6},{7,8,9}} -> {1,2,3,4,5,6,7,8,9}

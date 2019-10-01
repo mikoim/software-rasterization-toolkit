@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-typedef struct {
+typedef struct tagVector {
   Real x, y, z;
 } Vector;
 
