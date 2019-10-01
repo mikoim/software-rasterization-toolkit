@@ -19,6 +19,9 @@ target_link_libraries(matrix m)
 add_library(vector vector.c vector.h)
 target_link_libraries(vector m)
 
+add_executable(vector_test vector_test.c)
+target_link_libraries(vector_test vector)
+
 add_executable(matrix_test matrix_test.c)
 target_link_libraries(matrix_test matrix)
 
@@ -29,9 +32,7 @@ add_executable(example_triangle example_triangle.c)
 target_link_libraries(example_triangle bitmap vector)
 
 #add_executable(render main.c)
-
-add_executable(vector_test vector_test.c)
-target_link_libraries(vector_test vector)
+target_link_libraries(example_polygon bitmap matrix vector)
 
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
     include(CheckIPOSupported)
