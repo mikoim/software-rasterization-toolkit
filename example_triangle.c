@@ -1,5 +1,5 @@
 #include "bitmap.h"
-#include "matrix.h"
+#include "vector.h"
 
 int main() {
   const int w = 2000;
@@ -16,7 +16,7 @@ int main() {
       uint8_t g = 255;
       uint8_t b = 255;
       Vector vec = {width, height, 0};
-      if (VectorInsideTriangle(&vec, &vecRed, &vecGreen, &vecBlue)) {
+      if (VectorInsideTriangle2D(&vec, &vecRed, &vecGreen, &vecBlue)) {
         r = (w - VectorEuclideanDistance(&vec, &vecRed)) / w * 255;
         g = (w - VectorEuclideanDistance(&vec, &vecGreen)) / w * 255;
         b = (w - VectorEuclideanDistance(&vec, &vecBlue)) / w * 255;

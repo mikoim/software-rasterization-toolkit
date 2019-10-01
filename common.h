@@ -24,4 +24,6 @@ typedef unsigned __int64 uint64_t;
 #endif
 #endif
 
+typedef long double Real;
+
 #endif // RENDER_COMMON_H

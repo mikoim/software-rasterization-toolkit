@@ -16,14 +16,19 @@ add_library(bitmap bitmap.c bitmap.h)
 add_library(matrix matrix.c matrix.h)
 target_link_libraries(matrix m)
 
+add_library(vector vector.c vector.h)
+target_link_libraries(vector m)
+
 add_executable(example_hue_scale example_hue_scale.c)
 target_link_libraries(example_hue_scale bitmap)
 
 add_executable(example_triangle example_triangle.c)
-target_link_libraries(example_triangle bitmap matrix)
+target_link_libraries(example_triangle bitmap vector)
 
 #add_executable(render main.c)
-#target_link_libraries(render bitmap matrix)
+
+add_executable(vector_test vector_test.c)
+target_link_libraries(vector_test vector)
 
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
     include(CheckIPOSupported)
