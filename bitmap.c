@@ -10,7 +10,7 @@ Bitmap *BitmapNewImage(uint16_t width, uint16_t height) {
 
   uint32_t headerSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPCOREHEADER);
   uint32_t rowSize = sizeof(RGBTRIPLE) * width;
-  // Each row in the Pixel array is padded to a multiple of 4 bytes in size.
+  // NOTE: Each row in the Pixel array is padded to a multiple of 4 bytes in size.
   if (rowSize % 4) {
     rowSize += 4 - rowSize % 4;
   }

@@ -199,9 +199,7 @@ bool MatrixVectorInsideTriangle(const Matrix *p, const Matrix *p0, const Matrix 
   return a * sign > 0 && b * sign < 0 && c * sign < 0;
 }
 
-void VectorPrint(const Vector *v) {
-  printf("{{%Lf},{%Lf},{%Lf}}\n",v->x, v->y, v->z);
-}
+void VectorPrint(const Vector *v) { printf("{{%Lf},{%Lf},{%Lf}}\n", v->x, v->y, v->z); }
 
 Vector VectorAddition(const Vector *v1, const Vector *v2) { return (Vector){v1->x + v2->x, v1->y + v2->y, v1->z + v2->z}; }
 
