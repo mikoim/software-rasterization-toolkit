@@ -42,9 +42,9 @@ bool MatrixSetElement(Matrix *a, uint32_t rows, uint32_t columns, Real value) {
 
 void MatrixPrint(const Matrix *a) {
   printf("{");
-  for (int row = 0; row < a->rows; ++row) {
+  for (uint32_t row = 0; row < a->rows; ++row) {
     printf("{");
-    for (int col = 0; col < a->columns; ++col) {
+    for (uint32_t col = 0; col < a->columns; ++col) {
       printf(col < a->columns - 1 ? "%Lf," : "%Lf", MatrixGetElement(a, row, col));
     }
     printf("%s", row < a->rows - 1 ? "}," : "}");
@@ -175,7 +175,7 @@ Real MatrixVectorEuclideanDistance(const Matrix *a, const Matrix *b) {
     return 0;
   }
   Real sum = 0;
-  for (int row = 0; row < a->rows; ++row) {
+  for (uint32_t row = 0; row < a->rows; ++row) {
     const Real x = MatrixGetElement(b, row, 0) - MatrixGetElement(a, row, 0);
     sum += x * x;
   }
