@@ -17,6 +17,16 @@ int main() {
     assert(VectorCompare(&a, &b));
   }
   {
+    Vector a = VectorScalarAddition(&V(70, 94, 10), 10);
+    Vector b = V(80, 104, 20);
+    assert(VectorCompare(&a, &b));
+  }
+  {
+    Vector a = VectorScalarSubtraction(&V(70, 94, 10), 10);
+    Vector b = V(60, 84, 0);
+    assert(VectorCompare(&a, &b));
+  }
+  {
     Vector a = VectorScalarMultiplication(&V(70, 94, 10), 10);
     Vector b = V(700, 940, 100);
     assert(VectorCompare(&a, &b));

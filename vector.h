@@ -12,6 +12,8 @@ bool VectorCompare(const Vector *v1, const Vector *v2);
 bool VectorCompareLoose(const Vector *v1, const Vector *v2, Real error);
 Vector VectorAddition(const Vector *v1, const Vector *v2);
 Vector VectorSubtraction(const Vector *v1, const Vector *v2);
+Vector VectorScalarAddition(const Vector *v, Real value);
+Vector VectorScalarSubtraction(const Vector *v, Real value);
 Vector VectorScalarMultiplication(const Vector *v, Real value);
 Vector VectorScalarDivision(const Vector *v, Real value);
 Vector VectorCrossProduct(const Vector *v1, const Vector *v2); // 外積
