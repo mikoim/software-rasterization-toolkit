@@ -13,6 +13,7 @@ Matrix *MatrixZero(uint32_t rows, uint32_t columns);
 Matrix *MatrixFromArray(uint32_t rows, uint32_t columns, const Real array[rows][columns]);
 bool MatrixDestroy(Matrix *a);
 bool MatrixCompare(const Matrix *a, const Matrix *b);
+bool MatrixCompareLoose(const Matrix *a, const Matrix *b, Real error);
 Matrix *MatrixClone(const Matrix *a);
 void MatrixPrint(const Matrix *a);
 
@@ -22,6 +23,7 @@ bool MatrixSetElement(Matrix *a, uint32_t rows, uint32_t columns, Real value);
 Matrix *MatrixIdentity(uint32_t n);
 
 Matrix *MatrixTranspose(const Matrix *a);
+Matrix *MatrixInverse(const Matrix *a);
 Matrix *MatrixAddition(const Matrix *a, const Matrix *b);
 Matrix *MatrixSubtraction(const Matrix *a, const Matrix *b);
 Matrix *MatrixMultiplication(const Matrix *a, const Matrix *b);
