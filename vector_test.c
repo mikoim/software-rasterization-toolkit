@@ -2,7 +2,7 @@
 
 #include "vector.h"
 
-#define V(x, y, z)                                                                                                                                             \
+#define V(x, y, z)                                                                                                                                                                                     \
   (Vector) { x, y, z }
 
 int main() {

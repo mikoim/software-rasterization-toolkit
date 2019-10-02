@@ -22,9 +22,7 @@ Vector VectorScalarMultiplication(const Vector *v, Real value) { return (Vector)
 
 Vector VectorScalarDivision(const Vector *v, Real value) { return (Vector){v->x / value, v->y / value, v->z / value}; }
 
-Vector VectorCrossProduct(const Vector *v1, const Vector *v2) {
-  return (Vector){-v1->z * v2->y + v1->y * v2->z, v1->z * v2->x - v1->x * v2->z, -v1->y * v2->x + v1->x * v2->y};
-}
+Vector VectorCrossProduct(const Vector *v1, const Vector *v2) { return (Vector){-v1->z * v2->y + v1->y * v2->z, v1->z * v2->x - v1->x * v2->z, -v1->y * v2->x + v1->x * v2->y}; }
 
 Real VectorDotProduct(const Vector *v1, const Vector *v2) { return v1->x * v2->x + v1->y * v2->y + v1->z * v2->z; }
 
@@ -35,9 +33,7 @@ Vector VectorL2Normalization(const Vector *v) {
   return VectorScalarDivision(v, norm == 0 ? LDBL_MAX : norm);
 }
 
-Real VectorEuclideanDistance(const Vector *v1, const Vector *v2) {
-  return sqrtl((v2->x - v1->x) * (v2->x - v1->x) + (v2->y - v1->y) * (v2->y - v1->y) + (v2->z - v1->z) * (v2->z - v1->z));
-}
+Real VectorEuclideanDistance(const Vector *v1, const Vector *v2) { return sqrtl((v2->x - v1->x) * (v2->x - v1->x) + (v2->y - v1->y) * (v2->y - v1->y) + (v2->z - v1->z) * (v2->z - v1->z)); }
 
 bool VectorInsideTriangle2D(const Vector *v, const Vector *v1, const Vector *v2, const Vector *v3) {
   int8_t sign = v1->x * v2->y + v1->y * v3->x + v2->x * v3->y < v1->y * v2->x + v2->y * v3->x + v1->x * v3->y ? -1 : 1;
