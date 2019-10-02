@@ -8,9 +8,7 @@ void VectorPrint(const Vector *v) { printf("{{%Lf},{%Lf},{%Lf}}\n", v->x, v->y, 
 
 bool VectorCompare(const Vector *v1, const Vector *v2) { return v1->x == v2->x && v1->y == v2->y && v1->z == v2->z; }
 
-bool VectorCompareLoose(const Vector *v1, const Vector *v2, Real error) {
-  return fabsl(v1->x - v2->x) < error && (v1->y - v2->y) < error && (v1->z - v2->z) < error;
-}
+bool VectorCompareLoose(const Vector *v1, const Vector *v2, Real error) { return fabsl(v1->x - v2->x) < error && fabsl(v1->y - v2->y) < error && fabsl(v1->z - v2->z) < error; }
 
 Vector VectorAddition(const Vector *v1, const Vector *v2) { return (Vector){v1->x + v2->x, v1->y + v2->y, v1->z + v2->z}; }
 
