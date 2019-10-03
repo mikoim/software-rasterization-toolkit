@@ -31,6 +31,57 @@ int main() {
     MatrixDestroy(z);
   }
   {
+    Real _a[][1] = {{13}};
+    Matrix *a = MatrixFromArray(1, 1, _a);
+    Real b = MatrixDeterminant(a);
+    Real c = 13;
+    assert(b == c);
+    MatrixDestroy(a);
+  }
+  {
+    Real _a[][2] = {{77, 99}, {78, 39}};
+    Matrix *a = MatrixFromArray(2, 2, _a);
+    Real b = MatrixDeterminant(a);
+    Real c = -4719;
+    assert(b == c);
+    MatrixDestroy(a);
+  }
+  {
+    Real _a[][3] = {{76, 95, 47}, {55, 58, 38}, {16, 91, 46}};
+    Matrix *a = MatrixFromArray(3, 3, _a);
+    Real b = MatrixDeterminant(a);
+    Real c = -51011;
+    assert(b == c);
+    MatrixDestroy(a);
+  }
+  {
+    Real _a[][4] = {{65, 63, 54, 92}, {79, 51, 18, 73}, {16, 38, 44, 55}, {39, 49, 1, 60}};
+    Matrix *a = MatrixFromArray(4, 4, _a);
+    Real b = MatrixDeterminant(a);
+    Real c = -71424;
+    assert(b == c);
+    MatrixDestroy(a);
+  }
+  {
+    Real _a[][5] = {{58, 46, 53, 73, 76}, {29, 16, 90, 87, 75}, {24, 89, 60, 82, 44}, {11, 27, 91, 38, 15}, {51, 47, 98, 77, 100}};
+    Matrix *a = MatrixFromArray(5, 5, _a);
+    Real b = MatrixDeterminant(a);
+    Real c = 434893104;
+    assert(b == c);
+    MatrixDestroy(a);
+  }
+  {
+    Real _a[][1] = {{2}};
+    Matrix *a = MatrixFromArray(1, 1, _a);
+    Matrix *b = MatrixInverse(a);
+    Real _z[][1] = {{0.5}};
+    Matrix *z = MatrixFromArray(1, 1, _z);
+    assert(MatrixCompare(b, z));
+    MatrixDestroy(a);
+    MatrixDestroy(b);
+    MatrixDestroy(z);
+  }
+  {
     Real _a[][2] = {{1, 2}, {3, 4}};
     Matrix *a = MatrixFromArray(2, 2, _a);
     Matrix *b = MatrixInverse(a);

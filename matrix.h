@@ -23,6 +23,7 @@ bool MatrixSetElement(Matrix *a, uint32_t rows, uint32_t columns, Real value);
 Matrix *MatrixIdentity(uint32_t n);
 
 Matrix *MatrixTranspose(const Matrix *a);
+Real MatrixDeterminant(const Matrix *a);
 Matrix *MatrixInverse(const Matrix *a);
 Matrix *MatrixAddition(const Matrix *a, const Matrix *b);
 Matrix *MatrixSubtraction(const Matrix *a, const Matrix *b);
