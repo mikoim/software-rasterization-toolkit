@@ -16,10 +16,10 @@ int main() {
       uint8_t g = 255;
       uint8_t b = 255;
       Vector vec = {width, height, 0};
-      if (VectorInsideTriangle2D(&vec, &vecRed, &vecGreen, &vecBlue)) {
-        r = (w - VectorEuclideanDistance(&vec, &vecRed)) / w * 255;
-        g = (w - VectorEuclideanDistance(&vec, &vecGreen)) / w * 255;
-        b = (w - VectorEuclideanDistance(&vec, &vecBlue)) / w * 255;
+      if (VectorInsideTriangle2D(vec, vecRed, vecGreen, vecBlue)) {
+        r = (w - VectorEuclideanDistance(vec, vecRed)) / w * 255;
+        g = (w - VectorEuclideanDistance(vec, vecGreen)) / w * 255;
+        b = (w - VectorEuclideanDistance(vec, vecBlue)) / w * 255;
       }
       BitmapSetPixelColor(bmp, width, height, BMP_COLOR(r, g, b));
     }
