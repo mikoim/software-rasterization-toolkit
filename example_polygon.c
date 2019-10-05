@@ -1,3 +1,4 @@
+#include <float.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -157,13 +158,28 @@ Triangle rasterize(const Camera *camera, const Triangle triangle) {
   return new;
 }
 
-void DrawLine(Bitmap *bitmap, const Vector v1, const Vector v2) {
+void DrawLine(Bitmap *bitmap, const Vector v1, const Vector v2, const RGBTRIPLE *color) {
   Vector unit = VectorL2Normalization(VectorSubtraction(v2, v1));
   Real length = VectorEuclideanDistance(v1, v2);
   Vector cur = v1;
   for (int i = 0; i <= length; ++i) {
-    BitmapSetPixelColor(bitmap, cur.x, bitmap->dibHeader.bcHeight - cur.y, BMP_COLOR(255, 0, 0));
+    BitmapSetPixelColor(bitmap, cur.x, bitmap->dibHeader.bcHeight - cur.y, color);
     cur = VectorAddition(cur, unit);
+  }
+}
+
+void DrawTriangle(Bitmap *bitmap, const Vector v1, const Vector v2, const Vector v3, const RGBTRIPLE *color) {
+  uint32_t maxX = (uint32_t)fmaxl(v1.x, fmaxl(v2.x, v3.x));
+  uint32_t minX = (uint32_t)fminl(v1.x, fminl(v2.x, v3.x));
+  uint32_t maxY = (uint32_t)fmaxl(v1.y, fmaxl(v2.y, v3.y));
+  uint32_t minY = (uint32_t)fminl(v1.y, fminl(v2.y, v3.y));
+
+  for (uint32_t y = minY; y <= maxY; ++y) {
+    for (uint32_t x = minX; x <= maxX; ++x) {
+      if (VectorInsideTriangle2D(V(x, y, 0), v1, v2, v3)) {
+        BitmapSetPixelColor(bitmap, x, bitmap->dibHeader.bcHeight - y, color);
+      }
+    }
   }
 }
 
@@ -202,9 +218,14 @@ int main() {
 
   for (uint32_t i = 0; i < polygon->triangle; ++i) {
     Triangle triangle = rasterize(camera, polygon->triangles[i]);
-    DrawLine(bmp, triangle.vertexes[0], triangle.vertexes[1]);
-    DrawLine(bmp, triangle.vertexes[1], triangle.vertexes[2]);
-    DrawLine(bmp, triangle.vertexes[2], triangle.vertexes[0]);
+    DrawTriangle(bmp, triangle.vertexes[0], triangle.vertexes[1], triangle.vertexes[2], BMP_COLOR(255, 0, 0));
+  }
+
+  for (uint32_t i = 0; i < polygon->triangle; ++i) {
+    Triangle triangle = rasterize(camera, polygon->triangles[i]);
+    DrawLine(bmp, triangle.vertexes[0], triangle.vertexes[1], BMP_COLOR(0, 0, 255));
+    DrawLine(bmp, triangle.vertexes[1], triangle.vertexes[2], BMP_COLOR(0, 0, 255));
+    DrawLine(bmp, triangle.vertexes[2], triangle.vertexes[0], BMP_COLOR(0, 0, 255));
   }
 
   CameraDestroy(camera);

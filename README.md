@@ -19,3 +19,5 @@ make
 ![](examples/triangle.png)
 
 ![](examples/polygon.png)
+
+![](examples/polygon_fill.png)
