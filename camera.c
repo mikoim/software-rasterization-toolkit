@@ -26,19 +26,19 @@ Camera *CameraPerspectiveProjection(Vector eye, Vector at, Vector up_v, uint16_t
   Real scale = 1 / tanl(c->fov * 0.5 * M_PI / 180);
   Real aspect = (Real)c->image_width / c->image_height;
   Real range = c->far - c->near;
-  Real __camera2projection[][4] = {{scale/aspect, 0, 0, 0}, {0, scale, 0, 0}, {0, 0, -c->far / range, -1}, {0, 0, -c->far * c->near / range, 0}};
-  Matrix *_camera2projection = MatrixFromArray(4, 4, __camera2projection);
-  Matrix *camera2projection = MatrixTranspose(_camera2projection);
-  MatrixDestroy(_camera2projection);
-  c->camera2projection = camera2projection;
-  c->world2projection = MatrixMultiplication(c->camera2projection, c->world2camera);
+  Real __camera2ndc[][4] = {{scale/aspect, 0, 0, 0}, {0, scale, 0, 0}, {0, 0, -c->far / range, -1}, {0, 0, -c->far * c->near / range, 0}};
+  Matrix *_camera2ndc = MatrixFromArray(4, 4, __camera2ndc);
+  Matrix *camera2ndc = MatrixTranspose(_camera2ndc);
+  MatrixDestroy(_camera2ndc);
+  c->camera2ndc = camera2ndc;
+  c->world2ndc = MatrixMultiplication(c->camera2ndc, c->world2camera);
   return c;
 }
 
 bool CameraDestroy(Camera *camera) {
   free(camera->world2camera);
-  free(camera->camera2projection);
-  free(camera->world2projection);
+  free(camera->camera2ndc);
+  free(camera->world2ndc);
   free(camera);
   return true;
 }

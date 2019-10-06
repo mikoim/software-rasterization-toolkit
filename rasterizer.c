@@ -2,27 +2,29 @@
 
 #include "rasterizer.h"
 
-Vector _projection2view(const Camera *camera, const Vector projectionVec) {
-  const double slopeX = camera->image_width / 2.0;
-  const double slopeY = camera->image_height / 2.0;
-  return V(slopeX * (projectionVec.x + 1), slopeY * (projectionVec.y + 1), 0);
+/*
+ * NDC: Normalized Device Coordinates
+ */
+
+Vector _NDCPos2ImagePos(const Camera *camera, const Vector projectionVec) {
+  return V((Real)camera->image_width / 2 * (projectionVec.x + 1), (Real)camera->image_height / 2 * (projectionVec.y + 1), -projectionVec.z);
 }
 
-Vector _world2projection(const Camera *camera, const Vector worldVec) {
-  Real _w[][1] = {{worldVec.x}, {worldVec.y}, {worldVec.z}, {1}};
-  Matrix *w = MatrixFromArray(4, 1, _w);
-  Matrix *p = MatrixMultiplication(camera->world2projection, w);
-  Vector pV = V(MatrixGetElement(p, 0, 0), MatrixGetElement(p, 1, 0), MatrixGetElement(p, 2, 0));
-  MatrixDestroy(p);
-  MatrixDestroy(w);
-  return pV;
+Vector _WorldPos2NDCPos(const Camera *camera, const Vector worldVec) {
+  Real _worldPos[][1] = {{worldVec.x}, {worldVec.y}, {worldVec.z}, {1}};
+  Matrix *worldPos = MatrixFromArray(4, 1, _worldPos);
+  Matrix *_ndcPos = MatrixMultiplication(camera->world2ndc, worldPos);
+  Vector ndcPos = V(MatrixGetElement(_ndcPos, 0, 0), MatrixGetElement(_ndcPos, 1, 0), MatrixGetElement(_ndcPos, 2, 0));
+  MatrixDestroy(_ndcPos);
+  MatrixDestroy(worldPos);
+  return ndcPos;
 }
 
 Triangle rasterize(const Camera *camera, const Triangle triangle) {
   Triangle new = triangle;
-  new.vertexes[0] = _projection2view(camera, _world2projection(camera, new.vertexes[0]));
-  new.vertexes[1] = _projection2view(camera, _world2projection(camera, new.vertexes[1]));
-  new.vertexes[2] = _projection2view(camera, _world2projection(camera, new.vertexes[2]));
+  new.vertexes[0] = _NDCPos2ImagePos(camera, _WorldPos2NDCPos(camera, new.vertexes[0]));
+  new.vertexes[1] = _NDCPos2ImagePos(camera, _WorldPos2NDCPos(camera, new.vertexes[1]));
+  new.vertexes[2] = _NDCPos2ImagePos(camera, _WorldPos2NDCPos(camera, new.vertexes[2]));
   return new;
 }
 

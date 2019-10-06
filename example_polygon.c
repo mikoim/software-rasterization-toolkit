@@ -23,10 +23,6 @@ int main() {
 
   Camera *camera = CameraPerspectiveProjection(V(1, 0, 0), V(0, 0, 0), V(0, 1, 0), w, h, 0.1, 1000, 120);
 
-  MatrixPrint(camera->world2camera);
-  MatrixPrint(camera->camera2projection);
-  MatrixPrint(camera->world2projection);
-
 #ifdef _OPENMP
 #pragma omp parallel for schedule(dynamic)
 #endif
@@ -50,6 +46,5 @@ int main() {
 
   BitmapWriteFile(bmp, "polygon.bmp");
   BitmapDestroy(bmp);
-
   return 0;
 }
