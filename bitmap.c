@@ -40,7 +40,9 @@ bool BitmapWriteFile(const Bitmap *bitmap, const char *filename) {
 
 bool BitmapSetPixelColor(Bitmap *bitmap, uint16_t x, uint16_t y, const RGBTRIPLE *color) {
   if (bitmap->dibHeader.bcWidth <= x || bitmap->dibHeader.bcHeight <= y) {
+#ifndef NDEBUG
     fprintf(stderr, "%s: Invalid pixel indices (x:%d<%d, y:%d<%d)\n", __FUNCTION_NAME__, x, bitmap->dibHeader.bcWidth, y, bitmap->dibHeader.bcHeight);
+#endif
     return false;
   }
   bitmap->pixels[x + bitmap->dibHeader.bcWidth * (bitmap->dibHeader.bcHeight - y - 1)] = *color;
