@@ -24,7 +24,9 @@ Camera *CameraPerspectiveProjection(Vector eye, Vector at, Vector up_v, uint16_t
   Camera *c = _CameraNew(eye, at, up_v, image_width, image_height, near, far);
   c->fov = fov;
   Real scale = 1 / tanl(c->fov * 0.5 * M_PI / 180);
-  Real __camera2projection[][4] = {{scale, 0, 0, 0}, {0, scale, 0, 0}, {0, 0, -c->far / (c->far - c->near), -1}, {0, 0, -c->far * c->near / (c->far - c->near), 0}};
+  Real aspect = (Real)c->image_width / c->image_height;
+  Real range = c->far - c->near;
+  Real __camera2projection[][4] = {{scale/aspect, 0, 0, 0}, {0, scale, 0, 0}, {0, 0, -c->far / range, -1}, {0, 0, -c->far * c->near / range, 0}};
   Matrix *_camera2projection = MatrixFromArray(4, 4, __camera2projection);
   Matrix *camera2projection = MatrixTranspose(_camera2projection);
   MatrixDestroy(_camera2projection);
