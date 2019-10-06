@@ -19,6 +19,15 @@ target_link_libraries(matrix m)
 add_library(vector vector.c vector.h)
 target_link_libraries(vector m)
 
+add_library(polygon polygon.c polygon.h)
+target_link_libraries(polygon vector)
+
+add_library(camera camera.c camera.h)
+target_link_libraries(camera matrix vector)
+
+add_library(rasterizer rasterizer.c rasterizer.h)
+target_link_libraries(rasterizer bitmap polygon camera)
+
 add_executable(matrix_test matrix_test.c)
 target_link_libraries(matrix_test matrix)
 
@@ -32,7 +41,10 @@ add_executable(example_triangle example_triangle.c)
 target_link_libraries(example_triangle bitmap vector)
 
 add_executable(example_polygon example_polygon.c)
-target_link_libraries(example_polygon bitmap matrix vector)
+target_link_libraries(example_polygon rasterizer)
+
+add_executable(example_scene example_scene.c)
+target_link_libraries(example_scene rasterizer)
 
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
     include(CheckIPOSupported)
