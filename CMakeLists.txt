@@ -50,6 +50,9 @@ target_link_libraries(example_triangle bitmap vector)
 add_executable(example_polygon example_polygon.c)
 target_link_libraries(example_polygon rasterizer)
 
+add_executable(example_polygon_rotation example_polygon_rotation)
+target_link_libraries(example_polygon_rotation rasterizer)
+
 add_executable(example_scene example_scene.c)
 target_link_libraries(example_scene rasterizer)
 
