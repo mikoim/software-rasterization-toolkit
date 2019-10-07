@@ -66,4 +66,9 @@ int main() {
     bool a = VectorInsideTriangle2D(V(25, 25, 0), V(50, 0, 0), V(0, 100, 0), V(100, 100, 0));
     assert(!a);
   }
+  {
+    Vector a = VectorBarycentricCoordinateWeight(V(3.33333, 3.33333, 0), V(0, 10, 0), V(0, 0, 0), V(10, 0, 0));
+    Vector b = V(0.333, 0.333, 0.333);
+    assert(VectorCompareLoose(a, b, 0.01));
+  }
 }

@@ -44,3 +44,19 @@ bool VectorInsideTriangle2D(const Vector v, const Vector v1, const Vector v2, co
   Real c = (v2.y * (v3.x - v.x) + v3.y * v.x - v3.x * v.y + v2.x * (-v3.y + v.y));
   return a * sign > 0 && b * sign < 0 && c * sign < 0;
 }
+
+/**
+ * https://codeplea.com/triangular-interpolation
+ * https://en.wikipedia.org/wiki/Barycentric_coordinate_system
+ * @param v
+ * @param v1
+ * @param v2
+ * @param v3
+ * @return
+ */
+Vector VectorBarycentricCoordinateWeight(const Vector v, const Vector v1, const Vector v2, const Vector v3) {
+  Real w1 = -((-v2.x * v.y + v3.x * v.y + v.x * v2.y - v3.x * v2.y - v.x * v3.y + v2.x * v3.y) / (v2.x * v1.y - v3.x * v1.y - v1.x * v2.y + v3.x * v2.y + v1.x * v3.y - v2.x * v3.y));
+  Real w2 = -((v1.x * v.y - v3.x * v.y - v.x * v1.y + v3.x * v1.y + v.x * v3.y - v1.x * v3.y) / (v2.x * v1.y - v3.x * v1.y - v1.x * v2.y + v3.x * v2.y + v1.x * v3.y - v2.x * v3.y));
+  Real w3 = -((-v1.x * v.y + v2.x * v.y + v.x * v1.y - v2.x * v1.y - v.x * v2.y + v1.x * v2.y) / (v2.x * v1.y - v3.x * v1.y - v1.x * v2.y + v3.x * v2.y + v1.x * v3.y - v2.x * v3.y));
+  return V(w1, w2, w3);
+}

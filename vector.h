@@ -26,5 +26,6 @@ Real VectorEuclideanNorm(Vector v);              // L2 norm
 Vector VectorL2Normalization(Vector v);          // vector x divided by L2 norm
 Real VectorEuclideanDistance(Vector v1, Vector v2);
 bool VectorInsideTriangle2D(Vector v, Vector v1, Vector v2, Vector v3);
+Vector VectorBarycentricCoordinateWeight(Vector v, Vector v1, Vector v2, Vector v3);
 
 #endif // RENDER_VECTOR_H
