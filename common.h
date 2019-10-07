@@ -24,6 +24,10 @@ typedef unsigned __int64 uint64_t;
 #endif
 #endif
 
+#ifndef NULL
+#define NULL 0
+#endif
+
 typedef long double Real;
 
 #endif // RENDER_COMMON_H

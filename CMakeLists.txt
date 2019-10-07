@@ -53,6 +53,9 @@ target_link_libraries(example_polygon rasterizer)
 add_executable(example_polygon_rotation example_polygon_rotation)
 target_link_libraries(example_polygon_rotation rasterizer)
 
+add_executable(example_polygon_depth example_polygon_depth)
+target_link_libraries(example_polygon_depth rasterizer)
+
 add_executable(example_scene example_scene.c)
 target_link_libraries(example_scene rasterizer)
 

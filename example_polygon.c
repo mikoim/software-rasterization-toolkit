@@ -28,7 +28,7 @@ int main() {
 #endif
   for (uint32_t i = 0; i < polygon->triangle; ++i) {
     Triangle triangle = rasterize(camera, polygon->triangles[i]);
-    DrawTriangle(bmp, triangle.vertexes[0], triangle.vertexes[1], triangle.vertexes[2], BMP_COLOR(255, 0, 0));
+    DrawTriangle(bmp, triangle.vertexes[0], triangle.vertexes[1], triangle.vertexes[2], BMP_COLOR(255, 0, 0), NULL);
   }
 
 #ifdef _OPENMP

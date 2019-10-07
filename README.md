@@ -21,3 +21,5 @@ make
 ![](examples/polygon.png)
 
 ![](examples/polygon_fill.png)
+
+![](examples/polygon_depth_buffer.png)

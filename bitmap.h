@@ -6,6 +6,8 @@
 #define BMP_MAGIC 0x4d42
 #define BMP_COLOR(r, g, b)                                                                                                                                                                             \
   &(RGBTRIPLE) { b, g, r }
+#define BMP_GRAY_SCALE(v)                                                                                                                                                                        \
+  &(RGBTRIPLE) { v, v, v }
 
 #pragma pack(push)
 #pragma pack(1)
