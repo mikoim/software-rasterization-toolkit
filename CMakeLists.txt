@@ -26,8 +26,11 @@ target_link_libraries(polygon vector)
 add_library(camera camera.c camera.h)
 target_link_libraries(camera matrix vector)
 
+add_library(transformer transformer.c transformer.h)
+target_link_libraries(transformer matrix vector)
+
 add_library(rasterizer rasterizer.c rasterizer.h)
-target_link_libraries(rasterizer bitmap polygon camera)
+target_link_libraries(rasterizer bitmap polygon camera transformer)
 
 add_executable(matrix_test matrix_test.c)
 target_link_libraries(matrix_test matrix)

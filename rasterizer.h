@@ -5,6 +5,7 @@
 #include "camera.h"
 #include "common.h"
 #include "polygon.h"
+#include "transformer.h"
 
 typedef struct tagZBuffer {
   uint16_t imageWidth;
@@ -13,6 +14,7 @@ typedef struct tagZBuffer {
 } ZBuffer;
 
 Triangle rasterize(const Camera *camera, Triangle triangle);
+Triangle rasterizeT(const Camera *camera, const Transformer *transformer, Triangle triangle);
 void DrawLine(Bitmap *bitmap, Vector v1, Vector v2, const RGBTRIPLE *color);
 void DrawTriangle(Bitmap *bitmap, Vector v1, Vector v2, Vector v3, const RGBTRIPLE *color, ZBuffer *zbuffer);
 

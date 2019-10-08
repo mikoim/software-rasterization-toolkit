@@ -10,6 +10,9 @@ typedef struct tagVector {
 #define V(x, y, z)                                                                                                                                                                                     \
   (Vector) { x, y, z }
 
+#define V0 V(0, 0, 0)
+#define V1 V(1, 1, 1)
+
 void VectorPrint(Vector v);
 bool VectorCompare(Vector v1, Vector v2);
 bool VectorCompareLoose(Vector v1, Vector v2, Real error);

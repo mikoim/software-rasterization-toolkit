@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "transformer.h"
 /*
  * NDC: Normalized Device Coordinates
  */
@@ -28,6 +29,14 @@ Triangle rasterize(const Camera *camera, const Triangle triangle) {
   new.vertexes[0] = _NDCPos2ImagePos(camera, _WorldPos2NDCPos(camera, new.vertexes[0]));
   new.vertexes[1] = _NDCPos2ImagePos(camera, _WorldPos2NDCPos(camera, new.vertexes[1]));
   new.vertexes[2] = _NDCPos2ImagePos(camera, _WorldPos2NDCPos(camera, new.vertexes[2]));
+  return new;
+}
+
+Triangle rasterizeT(const Camera *camera, const Transformer *transformer, const Triangle triangle) {
+  Triangle new = triangle;
+  new.vertexes[0] = _NDCPos2ImagePos(camera, _WorldPos2NDCPos(camera, TransformerTransform(transformer, new.vertexes[0])));
+  new.vertexes[1] = _NDCPos2ImagePos(camera, _WorldPos2NDCPos(camera, TransformerTransform(transformer, new.vertexes[1])));
+  new.vertexes[2] = _NDCPos2ImagePos(camera, _WorldPos2NDCPos(camera, TransformerTransform(transformer, new.vertexes[2])));
   return new;
 }
 
