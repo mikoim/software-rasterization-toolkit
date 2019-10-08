@@ -52,10 +52,10 @@ void DrawLine(Bitmap *bitmap, const Vector v1, const Vector v2, const RGBTRIPLE 
 }
 
 void DrawTriangle(Bitmap *bitmap, const Vector v1, const Vector v2, const Vector v3, const RGBTRIPLE *color, ZBuffer *zbuffer) {
-  uint32_t maxX = (uint32_t)fmaxl(v1.x, fmaxl(v2.x, v3.x));
-  uint32_t minX = (uint32_t)fminl(v1.x, fminl(v2.x, v3.x));
-  uint32_t maxY = (uint32_t)fmaxl(v1.y, fmaxl(v2.y, v3.y));
-  uint32_t minY = (uint32_t)fminl(v1.y, fminl(v2.y, v3.y));
+  const uint32_t maxX = (uint32_t)fminl(fmaxl(fmaxl(v1.x, fmaxl(v2.x, v3.x)), 0), bitmap->dibHeader.bcWidth - 1);
+  const uint32_t minX = (uint32_t)fmaxl(fminl(v1.x, fminl(v2.x, v3.x)), 0);
+  const uint32_t maxY = (uint32_t)fminl(fmaxl(fmaxl(v1.y, fmaxl(v2.y, v3.y)), 0), bitmap->dibHeader.bcHeight - 1);
+  const uint32_t minY = (uint32_t)fmaxl(fminl(v1.y, fminl(v2.y, v3.y)), 0);
 
   for (uint32_t y = minY; y <= maxY; ++y) {
     for (uint32_t x = minX; x <= maxX; ++x) {
@@ -63,7 +63,7 @@ void DrawTriangle(Bitmap *bitmap, const Vector v1, const Vector v2, const Vector
         Vector weight = VectorBarycentricCoordinateWeight(V(x, y, 0), v1, v2, v3);
         Real depth = v1.z * weight.x + v2.z * weight.y + v3.z * weight.z;
         if (zbuffer == NULL || ZBufferTestAndUpdate(zbuffer, x, y, depth)) {
-          BitmapSetPixelColor(bitmap, x, bitmap->dibHeader.bcHeight - y, color);
+          BitmapSetPixelColor(bitmap, x, bitmap->dibHeader.bcHeight - y - 1, color);
         }
       }
     }
