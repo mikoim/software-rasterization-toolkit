@@ -28,6 +28,8 @@ typedef unsigned __int64 uint64_t;
 #define NULL 0
 #endif
 
+#define RADIAN(degree) degree * 3.14159265358979323846264338327950288 / 180
+
 typedef long double Real;
 
 #endif // RENDER_COMMON_H
