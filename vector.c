@@ -16,13 +16,13 @@ Vector VectorAddition(const Vector v1, const Vector v2) { return (Vector){v1.x +
 
 Vector VectorSubtraction(const Vector v1, const Vector v2) { return (Vector){v1.x - v2.x, v1.y - v2.y, v1.z - v2.z}; }
 
-Vector VectorScalarAddition(const Vector v, Real value) { return (Vector){v.x + value, v.y + value, v.z + value}; }
+Vector VectorScalarAddition(const Vector v, const Real value) { return (Vector){v.x + value, v.y + value, v.z + value}; }
 
-Vector VectorScalarSubtraction(const Vector v, Real value) { return (Vector){v.x - value, v.y - value, v.z - value}; }
+Vector VectorScalarSubtraction(const Vector v, const Real value) { return (Vector){v.x - value, v.y - value, v.z - value}; }
 
-Vector VectorScalarMultiplication(const Vector v, Real value) { return (Vector){v.x * value, v.y * value, v.z * value}; }
+Vector VectorScalarMultiplication(const Vector v, const Real value) { return (Vector){v.x * value, v.y * value, v.z * value}; }
 
-Vector VectorScalarDivision(const Vector v, Real value) { return (Vector){v.x / value, v.y / value, v.z / value}; }
+Vector VectorScalarDivision(const Vector v, const Real value) { return (Vector){v.x / value, v.y / value, v.z / value}; }
 
 Vector VectorCrossProduct(const Vector v1, const Vector v2) { return (Vector){-v1.z * v2.y + v1.y * v2.z, v1.z * v2.x - v1.x * v2.z, -v1.y * v2.x + v1.x * v2.y}; }
 
