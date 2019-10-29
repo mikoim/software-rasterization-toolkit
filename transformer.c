@@ -35,6 +35,11 @@ bool TransformerUpdateTransformationMatrix(Transformer *transformer) {
   }
   transformer->matrix = MatrixMultiplication(_c, rotateZ);
 
+  if (transformer->inverseMatrix != NULL) {
+    MatrixDestroy(transformer->inverseMatrix);
+  }
+  transformer->inverseMatrix = MatrixInverse(transformer->matrix);
+
   MatrixDestroy(_c);
   MatrixDestroy(_b);
   MatrixDestroy(_a);
@@ -73,5 +78,15 @@ Vector TransformerTransform(const Transformer *transformer, const Vector point) 
   Vector np = V(MatrixGetElement(translatedPoint, 0, 0), MatrixGetElement(translatedPoint, 1, 0), MatrixGetElement(translatedPoint, 2, 0));
   MatrixDestroy(translatedPoint);
   MatrixDestroy(prevPoint);
+  return np;
+}
+
+Vector TransformerDetransform(const Transformer *transformer, const Vector point) {
+  Real _translatedPoint[][1] = {{point.x}, {point.y}, {point.z}, {1}};
+  Matrix *translatedPoint = MatrixFromArray(4, 1, _translatedPoint);
+  Matrix *prevPoint = MatrixMultiplication(transformer->inverseMatrix, translatedPoint);
+  Vector np = V(MatrixGetElement(prevPoint, 0, 0), MatrixGetElement(prevPoint, 1, 0), MatrixGetElement(prevPoint, 2, 0));
+  MatrixDestroy(prevPoint);
+  MatrixDestroy(translatedPoint);
   return np;
 }

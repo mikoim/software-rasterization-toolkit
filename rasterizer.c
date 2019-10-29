@@ -11,33 +11,47 @@
  * NDC: Normalized Device Coordinates
  */
 
-Vector _NDCPos2ImagePos(const Camera *camera, const Vector projectionVec) {
+Vector NDCPos2ImagePos(const Camera *camera, const Vector projectionVec) {
   return V((Real)camera->image_width / 2 * (projectionVec.x + 1), (Real)camera->image_height / 2 * (projectionVec.y + 1), -projectionVec.z);
 }
 
-Vector _WorldPos2NDCPos(const Camera *camera, const Vector worldVec) {
+Vector ImagePos2NDCPos(const Camera *camera, const Vector imageVec) { return V((Real)-1 + 2 * imageVec.x / camera->image_width, (Real)-1 + 2 * imageVec.y / camera->image_height, -imageVec.z); }
+
+Vector WorldPos2NDCPos(const Camera *camera, const Vector worldVec) {
   Real _worldPos[][1] = {{worldVec.x}, {worldVec.y}, {worldVec.z}, {1}};
   Matrix *worldPos = MatrixFromArray(4, 1, _worldPos);
   Matrix *_ndcPos = MatrixMultiplication(camera->world2ndc, worldPos);
-  Vector ndcPos = V(MatrixGetElement(_ndcPos, 0, 0), MatrixGetElement(_ndcPos, 1, 0), MatrixGetElement(_ndcPos, 2, 0));
+  Real depth = MatrixGetElement(_ndcPos, 3, 0);
+  Vector ndcPos = V(MatrixGetElement(_ndcPos, 0, 0) / depth, MatrixGetElement(_ndcPos, 1, 0) / depth, MatrixGetElement(_ndcPos, 2, 0) / depth);
   MatrixDestroy(_ndcPos);
   MatrixDestroy(worldPos);
   return ndcPos;
 }
 
+// FIXME: This function will be used for phong shading but it's currently broken or not tested. It requires a depth between camera to surface, unfortunately there is no function implemented to do that.
+Vector NDCPos2WorldPos(const Camera *camera, const Vector ndcVec, const Real depth) {
+  Real _ndcPos[][1] = {{ndcVec.x * depth}, {ndcVec.y * depth}, {ndcVec.z * depth}, {depth}}; // NOTE: WorldPos2NDCPos drop one element "depth" from NDC matrix so we need to estimate it
+  Matrix *ndcPos = MatrixFromArray(4, 1, _ndcPos);
+  Matrix *_worldPos = MatrixMultiplication(camera->ndc2world, ndcPos);
+  Vector worldPos = V(MatrixGetElement(_worldPos, 0, 0), MatrixGetElement(_worldPos, 1, 0), MatrixGetElement(_worldPos, 2, 0));
+  MatrixDestroy(_worldPos);
+  MatrixDestroy(ndcPos);
+  return worldPos;
+}
+
 Triangle rasterize(const Camera *camera, const Triangle triangle) {
   Triangle new = triangle;
-  new.vertexes[0] = _NDCPos2ImagePos(camera, _WorldPos2NDCPos(camera, new.vertexes[0]));
-  new.vertexes[1] = _NDCPos2ImagePos(camera, _WorldPos2NDCPos(camera, new.vertexes[1]));
-  new.vertexes[2] = _NDCPos2ImagePos(camera, _WorldPos2NDCPos(camera, new.vertexes[2]));
+  new.vertexes[0] = NDCPos2ImagePos(camera, WorldPos2NDCPos(camera, new.vertexes[0]));
+  new.vertexes[1] = NDCPos2ImagePos(camera, WorldPos2NDCPos(camera, new.vertexes[1]));
+  new.vertexes[2] = NDCPos2ImagePos(camera, WorldPos2NDCPos(camera, new.vertexes[2]));
   return new;
 }
 
 Triangle rasterizeT(const Camera *camera, const Transformer *transformer, const Triangle triangle) {
   Triangle new = triangle;
-  new.vertexes[0] = _NDCPos2ImagePos(camera, _WorldPos2NDCPos(camera, TransformerTransform(transformer, new.vertexes[0])));
-  new.vertexes[1] = _NDCPos2ImagePos(camera, _WorldPos2NDCPos(camera, TransformerTransform(transformer, new.vertexes[1])));
-  new.vertexes[2] = _NDCPos2ImagePos(camera, _WorldPos2NDCPos(camera, TransformerTransform(transformer, new.vertexes[2])));
+  new.vertexes[0] = NDCPos2ImagePos(camera, WorldPos2NDCPos(camera, TransformerTransform(transformer, new.vertexes[0])));
+  new.vertexes[1] = NDCPos2ImagePos(camera, WorldPos2NDCPos(camera, TransformerTransform(transformer, new.vertexes[1])));
+  new.vertexes[2] = NDCPos2ImagePos(camera, WorldPos2NDCPos(camera, TransformerTransform(transformer, new.vertexes[2])));
   return new;
 }
 

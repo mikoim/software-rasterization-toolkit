@@ -33,6 +33,7 @@ Camera *CameraPerspectiveProjection(Vector eye, Vector at, Vector up_v, uint16_t
   MatrixDestroy(_camera2ndc);
   c->camera2ndc = camera2ndc;
   c->world2ndc = MatrixMultiplication(c->camera2ndc, c->world2camera);
+  c->ndc2world = MatrixInverse(c->world2ndc);
   return c;
 }
 
@@ -46,6 +47,7 @@ bool CameraDestroy(Camera *camera) {
   free(camera->world2camera);
   free(camera->camera2ndc);
   free(camera->world2ndc);
+  free(camera->ndc2world);
   free(camera);
   return true;
 }
