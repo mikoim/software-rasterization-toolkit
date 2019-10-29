@@ -29,7 +29,7 @@ target_link_libraries(camera matrix vector)
 add_library(transformer transformer.c transformer.h)
 target_link_libraries(transformer matrix vector)
 
-add_library(rasterizer rasterizer.c rasterizer.h)
+add_library(rasterizer rasterizer.c rasterizer.h world.c world.h)
 target_link_libraries(rasterizer bitmap polygon camera transformer)
 
 add_executable(matrix_test matrix_test.c)
@@ -53,8 +53,8 @@ target_link_libraries(example_polygon_rotation rasterizer)
 add_executable(example_polygon_depth example_polygon_depth)
 target_link_libraries(example_polygon_depth rasterizer)
 
-add_executable(example_scene example_scene.c)
-target_link_libraries(example_scene rasterizer)
+add_executable(example_polygon_shading example_polygon_shading.c)
+target_link_libraries(example_polygon_shading rasterizer)
 
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
     include(CheckIPOSupported)

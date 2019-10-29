@@ -22,7 +22,7 @@ Vector WorldPos2NDCPos(const Camera *camera, const Vector worldVec) {
   Matrix *worldPos = MatrixFromArray(4, 1, _worldPos);
   Matrix *_ndcPos = MatrixMultiplication(camera->world2ndc, worldPos);
   Real depth = MatrixGetElement(_ndcPos, 3, 0);
-  Vector ndcPos = V(MatrixGetElement(_ndcPos, 0, 0) / depth, MatrixGetElement(_ndcPos, 1, 0) / depth, MatrixGetElement(_ndcPos, 2, 0));
+  Vector ndcPos = V(-MatrixGetElement(_ndcPos, 0, 0) / depth, -MatrixGetElement(_ndcPos, 1, 0) / depth, MatrixGetElement(_ndcPos, 2, 0)); // NOTE: Negative sign corrects orientation of image
   MatrixDestroy(_ndcPos);
   MatrixDestroy(worldPos);
   return ndcPos;
