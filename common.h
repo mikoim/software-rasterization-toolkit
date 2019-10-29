@@ -29,6 +29,7 @@ typedef unsigned __int64 uint64_t;
 #endif
 
 #define RADIAN(degree) degree * 3.14159265358979323846264338327950288 / 180
+#define CONFINE(value, min, max) fmaxl(fminl(value, max), min)
 
 typedef long double Real;
 
