@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "camera.h"
@@ -36,6 +37,12 @@ Camera *CameraPerspectiveProjection(Vector eye, Vector at, Vector up_v, uint16_t
 }
 
 bool CameraDestroy(Camera *camera) {
+  if (camera == NULL) {
+#ifndef NDEBUG
+    fprintf(stderr, "%s: trying to free null pointer, ignored.\n", __FUNCTION_NAME__);
+#endif
+    return false;
+  }
   free(camera->world2camera);
   free(camera->camera2ndc);
   free(camera->world2ndc);

@@ -163,6 +163,12 @@ bool ZBufferExportToImage(const ZBuffer *zbuffer, Bitmap *bitmap) {
 }
 
 bool ZBufferDestroy(ZBuffer *zbuffer) {
+  if (zbuffer == NULL) {
+#ifndef NDEBUG
+    fprintf(stderr, "%s: trying to free null pointer, ignored.\n", __FUNCTION_NAME__);
+#endif
+    return false;
+  }
   free(zbuffer->depths);
   free(zbuffer);
   return true;

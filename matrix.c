@@ -17,6 +17,12 @@ Matrix *MatrixZero(uint32_t rows, uint32_t columns) {
 }
 
 bool MatrixDestroy(Matrix *a) {
+  if (a == NULL) {
+#ifndef NDEBUG
+    fprintf(stderr, "%s: trying to free null pointer, ignored.\n", __FUNCTION_NAME__);
+#endif
+    return false;
+  }
   free(a->matrix);
   free(a);
   return true; // TODO: implement error handling

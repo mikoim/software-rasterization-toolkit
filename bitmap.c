@@ -24,6 +24,12 @@ Bitmap *BitmapNewImage(uint16_t width, uint16_t height) {
 }
 
 bool BitmapDestroy(Bitmap *bitmap) {
+  if (bitmap == NULL) {
+#ifndef NDEBUG
+    fprintf(stderr, "%s: trying to free null pointer, ignored.\n", __FUNCTION_NAME__);
+#endif
+    return false;
+  }
   free(bitmap->pixels);
   free(bitmap);
   return true; // TODO: implement error handler

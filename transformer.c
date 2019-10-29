@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "transformer.h"
@@ -54,6 +55,12 @@ Transformer *TransformerCreate(const Vector location, const Vector rotation, con
 }
 
 bool TransformerDestroy(Transformer *transformer) {
+  if (transformer == NULL) {
+#ifndef NDEBUG
+    fprintf(stderr, "%s: trying to free null pointer, ignored.\n", __FUNCTION_NAME__);
+#endif
+    return false;
+  }
   free(transformer->matrix);
   free(transformer);
   return true;
