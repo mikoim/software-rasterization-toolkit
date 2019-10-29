@@ -45,6 +45,8 @@ make
 
 ![](examples/polygon_depth_buffer.png)
 
+![](examples/shading.png)
+
 ### 3D models
 - alice.stl (unknown author, license): "Alice and skulls free 3d model" http://3dmag.org/en/market/item/3861/
 - ball.stl (Blender Foundation, unknown license): Primitives in Blender https://www.blender.org/
