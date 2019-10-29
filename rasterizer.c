@@ -22,15 +22,16 @@ Vector WorldPos2NDCPos(const Camera *camera, const Vector worldVec) {
   Matrix *worldPos = MatrixFromArray(4, 1, _worldPos);
   Matrix *_ndcPos = MatrixMultiplication(camera->world2ndc, worldPos);
   Real depth = MatrixGetElement(_ndcPos, 3, 0);
-  Vector ndcPos = V(MatrixGetElement(_ndcPos, 0, 0) / depth, MatrixGetElement(_ndcPos, 1, 0) / depth, MatrixGetElement(_ndcPos, 2, 0) / depth);
+  Vector ndcPos = V(MatrixGetElement(_ndcPos, 0, 0) / depth, MatrixGetElement(_ndcPos, 1, 0) / depth, MatrixGetElement(_ndcPos, 2, 0));
   MatrixDestroy(_ndcPos);
   MatrixDestroy(worldPos);
   return ndcPos;
 }
 
-// FIXME: This function will be used for phong shading but it's currently broken or not tested. It requires a depth between camera to surface, unfortunately there is no function implemented to do that.
+// FIXME: This function will be used for phong shading but it's currently broken or not tested. It requires a depth between camera to surface, unfortunately there is no function implemented to do
+// that.
 Vector NDCPos2WorldPos(const Camera *camera, const Vector ndcVec, const Real depth) {
-  Real _ndcPos[][1] = {{ndcVec.x * depth}, {ndcVec.y * depth}, {ndcVec.z * depth}, {depth}}; // NOTE: WorldPos2NDCPos drop one element "depth" from NDC matrix so we need to estimate it
+  Real _ndcPos[][1] = {{ndcVec.x * depth}, {ndcVec.y * depth}, {ndcVec.z}, {depth}}; // NOTE: WorldPos2NDCPos drop one element "depth" from NDC matrix so we need to estimate it
   Matrix *ndcPos = MatrixFromArray(4, 1, _ndcPos);
   Matrix *_worldPos = MatrixMultiplication(camera->ndc2world, ndcPos);
   Vector worldPos = V(MatrixGetElement(_worldPos, 0, 0), MatrixGetElement(_worldPos, 1, 0), MatrixGetElement(_worldPos, 2, 0));
@@ -161,14 +162,13 @@ bool ZBufferExportToImage(const ZBuffer *zbuffer, Bitmap *bitmap) {
 
   for (uint16_t x = 0; x < imageWidth; ++x) {
     for (uint16_t y = 0; y < imageHeight; ++y) {
-      Real real = ZBufferGetDepth(zbuffer, x, y);
-      const Real depth = fminl(real, 3);
-      if (real < 0) { // Negative depth. maybe bug
+      const Real depth = ZBufferGetDepth(zbuffer, x, y);
+      if (depth < 0) { // Negative depth. maybe bug
         BitmapSetPixelColor(bitmap, x, bitmapHeight - y - 1, BMP_COLOR(0, 0, 255));
-      } else if (real == DBL_MAX) { // untouched pixel
+      } else if (depth == DBL_MAX) { // untouched pixel
         BitmapSetPixelColor(bitmap, x, bitmapHeight - y - 1, BMP_COLOR(255, 0, 0));
       } else {
-        BitmapSetPixelColor(bitmap, x, bitmapHeight - y - 1, BMP_GRAY_SCALE(255 * (maxDepth - depth) / maxDepth));
+        BitmapSetPixelColor(bitmap, x, bitmapHeight - y - 1, BMP_GRAY_SCALE(255 - (255 * depth) / maxDepth));
       }
     }
   }
