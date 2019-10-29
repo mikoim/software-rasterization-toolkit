@@ -48,5 +48,6 @@ typedef struct tagCamera {
 
 Camera *CameraPerspectiveProjection(Vector eye, Vector at, Vector up_v, uint16_t image_width, uint16_t image_height, Real near, Real far, Real fov);
 bool CameraDestroy(Camera *camera);
+Vector CameraGetDirection(const Camera *camera, Vector position);
 
 #endif // RENDER_CAMERA_H

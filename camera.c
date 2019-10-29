@@ -51,3 +51,7 @@ bool CameraDestroy(Camera *camera) {
   free(camera);
   return true;
 }
+
+Vector CameraGetDirection(const Camera *camera, const Vector position) {
+  return VectorL2Normalization(VectorSubtraction(position, camera->eye));
+}
