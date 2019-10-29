@@ -61,6 +61,4 @@ Vector VectorBarycentricCoordinateWeight(const Vector v, const Vector v1, const 
   return V(w1, w2, w3);
 }
 
-Vector VectorConfine(const Vector v, Real min, Real max) {
-  return V(CONFINE(v.x, min, max),CONFINE(v.y, min, max),CONFINE(v.z, min, max));
-}
+Vector VectorConfine(const Vector v, Real min, Real max) { return V(CONFINE(v.x, min, max), CONFINE(v.y, min, max), CONFINE(v.z, min, max)); }

@@ -27,7 +27,7 @@ Camera *CameraPerspectiveProjection(Vector eye, Vector at, Vector up_v, uint16_t
   Real scale = 1 / tanl(c->fov * 0.5 * M_PI / 180);
   Real aspect = (Real)c->image_width / c->image_height;
   Real range = c->far - c->near;
-  Real __camera2ndc[][4] = {{scale/aspect, 0, 0, 0}, {0, scale, 0, 0}, {0, 0, -c->far / range, -1}, {0, 0, -c->far * c->near / range, 0}};
+  Real __camera2ndc[][4] = {{scale / aspect, 0, 0, 0}, {0, scale, 0, 0}, {0, 0, -c->far / range, -1}, {0, 0, -c->far * c->near / range, 0}};
   Matrix *_camera2ndc = MatrixFromArray(4, 4, __camera2ndc);
   Matrix *camera2ndc = MatrixTranspose(_camera2ndc);
   MatrixDestroy(_camera2ndc);
@@ -52,6 +52,4 @@ bool CameraDestroy(Camera *camera) {
   return true;
 }
 
-Vector CameraGetDirection(const Camera *camera, const Vector position) {
-  return VectorL2Normalization(VectorSubtraction(position, camera->eye));
-}
+Vector CameraGetDirection(const Camera *camera, const Vector position) { return VectorL2Normalization(VectorSubtraction(position, camera->eye)); }

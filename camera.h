@@ -37,8 +37,8 @@ typedef struct tagCamera {
   uint16_t image_width;
   uint16_t image_height;
 
-  Real fov;       // perspective projection
-  Real near, far; // both
+  Real fov; // perspective projection
+  Real near, far;
 
   Matrix *world2camera;
   Matrix *camera2ndc;
