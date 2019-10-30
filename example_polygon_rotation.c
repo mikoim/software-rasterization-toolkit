@@ -17,7 +17,8 @@ int main() {
 #pragma omp parallel for schedule(dynamic)
 #endif
     for (uint32_t i = 0; i < polygon->triangle; ++i) {
-      Triangle triangle = rasterizeT(camera, transformer, polygon->triangles[i]);
+      Triangle triangleWorld = TransformerTransformTriangle(transformer, polygon->triangles[i]);
+      Triangle triangle = rasterize(camera, triangleWorld);
       DrawLine(bmp, triangle.vertexes[0], triangle.vertexes[1], BMP_COLOR(0, 0, 255));
       DrawLine(bmp, triangle.vertexes[1], triangle.vertexes[2], BMP_COLOR(0, 0, 255));
       DrawLine(bmp, triangle.vertexes[2], triangle.vertexes[0], BMP_COLOR(0, 0, 255));

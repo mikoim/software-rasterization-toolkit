@@ -17,7 +17,7 @@ Camera *_CameraNew(Vector eye, Vector at, Vector up_v, uint16_t projection_width
   MatrixDestroy(_world2camera);
 
   Camera *new = calloc(1, sizeof(Camera));
-  *new = (Camera){eye, at, up_v, projection_width, projection_height, 0, near, far, world2camera, NULL, NULL};
+  *new = (Camera){eye, at, up_v, projection_width, projection_height, 0, near, far, world2camera, NULL, NULL, NULL};
   return new;
 }
 

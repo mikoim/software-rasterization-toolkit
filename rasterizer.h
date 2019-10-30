@@ -19,7 +19,6 @@ Vector WorldPos2NDCPos(const Camera *camera, Vector worldVec);
 Vector NDCPos2WorldPos(const Camera *camera, Vector ndcVec, Real depth);
 
 Triangle rasterize(const Camera *camera, Triangle triangle);
-Triangle rasterizeT(const Camera *camera, const Transformer *transformer, Triangle triangle);
 
 void DrawLine(Bitmap *bitmap, Vector v1, Vector v2, const RGBTRIPLE *color);
 void DrawTriangle(Bitmap *bitmap, Vector v1, Vector v2, Vector v3, const RGBTRIPLE *color, ZBuffer *zbuffer);

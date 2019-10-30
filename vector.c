@@ -45,6 +45,8 @@ bool VectorInsideTriangle2D(const Vector v, const Vector v1, const Vector v2, co
   return a * sign > 0 && b * sign < 0 && c * sign < 0;
 }
 
+Vector VectorTriangleNormal(const Vector v1, const Vector v2, const Vector v3) { return VectorL2Normalization(VectorCrossProduct(VectorSubtraction(v2, v1), VectorSubtraction(v3, v1))); }
+
 /**
  * https://codeplea.com/triangular-interpolation
  * https://en.wikipedia.org/wiki/Barycentric_coordinate_system

@@ -48,14 +48,6 @@ Triangle rasterize(const Camera *camera, const Triangle triangle) {
   return new;
 }
 
-Triangle rasterizeT(const Camera *camera, const Transformer *transformer, const Triangle triangle) {
-  Triangle new = triangle;
-  new.vertexes[0] = NDCPos2ImagePos(camera, WorldPos2NDCPos(camera, TransformerTransform(transformer, new.vertexes[0])));
-  new.vertexes[1] = NDCPos2ImagePos(camera, WorldPos2NDCPos(camera, TransformerTransform(transformer, new.vertexes[1])));
-  new.vertexes[2] = NDCPos2ImagePos(camera, WorldPos2NDCPos(camera, TransformerTransform(transformer, new.vertexes[2])));
-  return new;
-}
-
 void DrawLine(Bitmap *bitmap, const Vector v1, const Vector v2, const RGBTRIPLE *color) {
   Vector unit = VectorL2Normalization(VectorSubtraction(v2, v1));
   Real length = VectorEuclideanDistance(v1, v2);

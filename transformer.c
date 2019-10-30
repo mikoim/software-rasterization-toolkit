@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "polygon.h"
 #include "transformer.h"
 
 bool TransformerUpdateTransformationMatrix(Transformer *transformer) {
@@ -54,7 +55,7 @@ bool TransformerUpdateTransformationMatrix(Transformer *transformer) {
 
 Transformer *TransformerCreate(const Vector location, const Vector rotation, const Vector scale) {
   Transformer *t = (Transformer *)calloc(1, sizeof(Transformer));
-  *t = (Transformer){location, rotation, scale, NULL};
+  *t = (Transformer){location, rotation, scale, NULL, NULL};
   TransformerUpdateTransformationMatrix(t);
   return t;
 }
@@ -71,7 +72,7 @@ bool TransformerDestroy(Transformer *transformer) {
   return true;
 }
 
-Vector TransformerTransform(const Transformer *transformer, const Vector point) {
+Vector TransformerTransformPoint(const Transformer *transformer, const Vector point) {
   Real _prevPoint[][1] = {{point.x}, {point.y}, {point.z}, {1}};
   Matrix *prevPoint = MatrixFromArray(4, 1, _prevPoint);
   Matrix *translatedPoint = MatrixMultiplication(transformer->matrix, prevPoint);
@@ -79,6 +80,15 @@ Vector TransformerTransform(const Transformer *transformer, const Vector point) 
   MatrixDestroy(translatedPoint);
   MatrixDestroy(prevPoint);
   return np;
+}
+
+Triangle TransformerTransformTriangle(const Transformer *transformer, const Triangle triangle) {
+  Triangle new = triangle;
+  new.vertexes[0] = TransformerTransformPoint(transformer, new.vertexes[0]);
+  new.vertexes[1] = TransformerTransformPoint(transformer, new.vertexes[1]);
+  new.vertexes[2] = TransformerTransformPoint(transformer, new.vertexes[2]);
+  new.normal = VectorTriangleNormal(new.vertexes[0], new.vertexes[1], new.vertexes[2]);
+  return new;
 }
 
 Vector TransformerDetransform(const Transformer *transformer, const Vector point) {

@@ -132,11 +132,6 @@ bool SceneAppendLight(Scene *scene, Light *light) {
   return true;
 }
 
-typedef struct tagGouraud {
-  Vector vertex[3];
-  Color color[3];
-} Gouraud;
-
 // TODO: merge with DrawTriangle
 void _DrawTriangleGouraud(Bitmap *bitmap, const Vector v1, const Vector v2, const Vector v3, Color c1, Color c2, Color c3, ZBuffer *zbuffer) {
   const uint32_t maxX = (uint32_t)fminl(fmaxl(fmaxl(v1.x, fmaxl(v2.x, v3.x)), 0), bitmap->dibHeader.bcWidth - 1);
@@ -163,14 +158,15 @@ bool SceneRender(const Scene *scene, Bitmap *bitmap, ZBuffer *zbuffer, Color ref
     Thing *thing = scene->things[thingIndex];
     for (uint32_t triangleIndex = 0; triangleIndex < thing->polygon->triangle; ++triangleIndex) {
       Triangle triangle = thing->polygon->triangles[triangleIndex];
-      Triangle rasterizedTriangle = rasterizeT(scene->camera, thing->transformer, triangle);
+      Triangle triangleWorld = TransformerTransformTriangle(thing->transformer, triangle);
+      Triangle triangleNDC = rasterize(scene->camera, triangleWorld);
 
       // NOTE: ReflectionModel uses position in world space
-      Color c1 = reflectionModel(scene, thing, triangle.vertexes[0], triangle.normal);
-      Color c2 = reflectionModel(scene, thing, triangle.vertexes[1], triangle.normal);
-      Color c3 = reflectionModel(scene, thing, triangle.vertexes[2], triangle.normal);
+      Color c1 = reflectionModel(scene, thing, triangle.vertexes[0], triangleWorld.normal);
+      Color c2 = reflectionModel(scene, thing, triangle.vertexes[1], triangleWorld.normal);
+      Color c3 = reflectionModel(scene, thing, triangle.vertexes[2], triangleWorld.normal);
 
-      _DrawTriangleGouraud(bitmap, rasterizedTriangle.vertexes[0], rasterizedTriangle.vertexes[1], rasterizedTriangle.vertexes[2], c1, c2, c3, zbuffer);
+      _DrawTriangleGouraud(bitmap, triangleNDC.vertexes[0], triangleNDC.vertexes[1], triangleNDC.vertexes[2], c1, c2, c3, zbuffer);
     }
   }
   return true;

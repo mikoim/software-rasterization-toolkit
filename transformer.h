@@ -15,7 +15,8 @@ typedef struct tagTransformer {
 Transformer *TransformerCreate(Vector location, Vector rotation, Vector scale);
 bool TransformerDestroy(Transformer *transformer);
 bool TransformerUpdateTransformationMatrix(Transformer *transformer);
-Vector TransformerTransform(const Transformer *transformer, Vector point);
+Vector TransformerTransformPoint(const Transformer *transformer, Vector point);
+Triangle TransformerTransformTriangle(const Transformer *transformer, Triangle triangle);
 Vector TransformerDetransform(const Transformer *transformer, Vector point);
 
 #endif // RENDER_TRANSFORMER_H
