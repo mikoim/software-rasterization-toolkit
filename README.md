@@ -72,10 +72,16 @@ make
 
 ### Video
 #### Rendering polygon wire-frames
+[here](examples/wireframe.mp4)
+
 <video src="examples/wireframe.mp4" controls></video>
 #### Comparing shading methods
+[here](examples/shadings.mp4)
+
 <video src="examples/shadings.mp4" controls></video>
 #### Rendering world
+[here](examples/world.webm)
+
 <video src="examples/world.webm" controls></video>
 
 ## 3D models
@@ -87,7 +93,7 @@ make
 - monkey.stl (Blender Foundation, unknown license): Primitives in Blender https://www.blender.org/
 - plane.stl (Blender Foundation, unknown license): Primitives in Blender https://www.blender.org/
 
-## External libraries
+## External dependencies
 - "exebook/hashdict.c: This is my REALLY FAST implementation of a hash table in C, in 150 lines of code." https://github.com/exebook/hashdict.c/
 
 ## References
