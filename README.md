@@ -1,9 +1,10 @@
 # Software Rasterization Toolkit
+Software rasterizer written in C.
 
 ## Features
 - File
     - Bitmap reader / writer
-    - STL reader / writer
+    - STL reader / ~~writer~~
 - 3DCG
     - Perspective camera
     - Rendering
