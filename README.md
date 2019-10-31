@@ -15,24 +15,47 @@
         - Flat shading
         - Gouraud shading
         - Phong shading
-- Matrix operations
-    - Matrix inverse (has limitation up to 6x6)
-- Vector operations
-    - Barycentric coordinate system
+- Matrix
+    - Transpose
+    - Determinant
+    - Inverse
+    - Addition
+    - Subtraction
+    - Multiplication
+    - Scalar addition
+    - Scalar subtraction
+    - Scalar multiplication
+    - Scalar division
+- Vector
+    - Addition
+    - Subtraction
+    - Scalar addition
+    - Scalar subtraction
+    - Scalar multiplication
+    - Scalar division
+    - Cross product
+    - Dot product
+    - Euclidean norm
+    - Euclidean distance
+    - L2 normalization
+    - Triangle: Check if vector is inside triangle?
+    - Triangle: Normal vector
+    - Triangle: Center of gravity
+    - Barycentric coordinate
 
 ## Building all examples
 ```bash
-mkdir build
-cd build
-cmake ..
+git clone --recursive https://github.com/mikoim/software-rasterization-toolkit.git
+cd software-rasterization-toolkit
+cmake .
 make
 ```
 
 ## Tips
 ### Export model from Blender
 - File format: STL (**binary**)
-- Forward: X Forward
-- Up: Y Up
+- Forward: **X Forward**
+- Up: **Y Up**
 
 ## Examples
 ![](examples/hue_scale.png)
@@ -47,13 +70,25 @@ make
 
 ![](examples/shading.png)
 
-### 3D models
+### Video
+#### Rendering polygon wire-frames
+<video src="examples/wireframe.mp4" controls></video>
+#### Comparing shading methods
+<video src="examples/shadings.mp4" controls></video>
+#### Rendering world
+<video src="examples/world.webm" controls></video>
+
+## 3D models
 - alice.stl (unknown author, license): "Alice and skulls free 3d model" http://3dmag.org/en/market/item/3861/
 - ball.stl (Blender Foundation, unknown license): Primitives in Blender https://www.blender.org/
+- box.stl (Blender Foundation, unknown license): Primitives in Blender https://www.blender.org/
 - cone.stl (Blender Foundation, unknown license): Primitives in Blender https://www.blender.org/
 - cube.stl (me, Public Domain)
 - monkey.stl (Blender Foundation, unknown license): Primitives in Blender https://www.blender.org/
 - plane.stl (Blender Foundation, unknown license): Primitives in Blender https://www.blender.org/
+
+## External libraries
+- "exebook/hashdict.c: This is my REALLY FAST implementation of a hash table in C, in 150 lines of code." https://github.com/exebook/hashdict.c/
 
 ## References
 - "Article - World, View and Projection Transformation Matrices" http://www.codinglabs.net/article_world_view_projection_matrix.aspx
