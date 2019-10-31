@@ -50,14 +50,14 @@ int main() {
 
     ZBuffer *zbuffer = ZBufferCreate(w, h);
 
-    SceneRender(scene, bmp, zbuffer, BlinnPhongReflectionModel);
+    SceneRender(scene, bmp, zbuffer, WorldRender, GouraudShading, BlinnPhongReflectionModel);
 
     SceneDestroy(scene);
 
     ZBufferDestroy(zbuffer);
 
     char buf[100];
-    sprintf(buf, "shade_%d.bmp", i);
+    sprintf(buf, "render_world_%d.bmp", i);
 
     BitmapWriteFile(bmp, buf);
     BitmapDestroy(bmp);

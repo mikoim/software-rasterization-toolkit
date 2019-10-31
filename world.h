@@ -10,6 +10,9 @@
 typedef Vector Color; // RGB [0 - 1]
 
 typedef enum { PointLight, DirectionalLight } LightType;
+typedef enum { NullReflectionModel, PhongReflectionModel, BlinnPhongReflectionModel } ReflectionModelType;
+typedef enum { FlatShading, GouraudShading, PhongShading } ShadingType;
+typedef enum { WireframeRender, WireframeNormalsRender, WorldRender } RenderType;
 
 typedef struct tagLight {
   LightType type;
@@ -50,14 +53,11 @@ Vector LightGetPosition(Light light);
 Thing *ThingCreate(Polygon *polygon, Transformer *transformer, Material material);
 bool ThingDestroy(Thing *thing);
 
-Color PhongReflectionModel(const Scene *scene, const Thing *thing, Vector surfacePosition, Vector normal);
-Color BlinnPhongReflectionModel(const Scene *scene, const Thing *thing, Vector surfacePosition, Vector normal);
-
 Scene *SceneCreateEmpty();
 bool SceneDestroy(Scene *scene);
 bool SceneSetCamera(Scene *scene, Camera *camera);
 bool SceneAppendThing(Scene *scene, Thing *thing);
 bool SceneAppendLight(Scene *scene, Light *light);
-bool SceneRender(const Scene *scene, Bitmap *bitmap, ZBuffer *zbuffer, Color reflectionModel(const Scene *, const Thing *, const Vector, const Vector));
+bool SceneRender(const Scene *scene, Bitmap *bitmap, ZBuffer *zbuffer, RenderType renderType, ShadingType shadingType, ReflectionModelType reflectionModelType);
 
 #endif // RENDER_WORLD_H

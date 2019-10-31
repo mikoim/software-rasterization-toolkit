@@ -14,7 +14,7 @@
     - Shading
         - Flat shading
         - Gouraud shading
-        - ~~Phong shading~~
+        - Phong shading
 - Matrix operations
     - Matrix inverse (has limitation up to 6x6)
 - Vector operations

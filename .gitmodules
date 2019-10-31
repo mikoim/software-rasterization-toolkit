@@ -1,0 +1,3 @@
+[submodule "hashdict"]
+	path = hashdict
+	url = https://github.com/exebook/hashdict.c.git

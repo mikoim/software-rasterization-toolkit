@@ -23,10 +23,10 @@ int main() {
   CameraDestroy(camera);
   PolygonDestroy(polygon);
 
-  BitmapWriteFile(bmp, "polygon_depth.bmp");
+  BitmapWriteFile(bmp, "zbuffer.bmp");
   BitmapDestroy(bmp);
 
-  BitmapWriteFile(bmpDepth, "polygon_depth_buffer.bmp");
+  BitmapWriteFile(bmpDepth, "zbuffer_depth.bmp");
   BitmapDestroy(bmpDepth);
   return 0;
 }

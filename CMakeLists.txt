@@ -12,6 +12,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}")
 
+add_library(hashdict hashdict/hashdict.c hashdict/hashdict.h)
+
 add_library(bitmap bitmap.c bitmap.h)
 
 add_library(matrix matrix.c matrix.h)
@@ -21,7 +23,7 @@ add_library(vector vector.c vector.h)
 target_link_libraries(vector m)
 
 add_library(polygon polygon.c polygon.h)
-target_link_libraries(polygon vector)
+target_link_libraries(polygon vector hashdict)
 
 add_library(camera camera.c camera.h)
 target_link_libraries(camera matrix vector)
@@ -50,11 +52,14 @@ target_link_libraries(example_polygon rasterizer)
 add_executable(example_polygon_rotation example_polygon_rotation)
 target_link_libraries(example_polygon_rotation rasterizer)
 
-add_executable(example_polygon_depth example_polygon_depth)
-target_link_libraries(example_polygon_depth rasterizer)
+add_executable(example_zbuffer example_zbuffer.c)
+target_link_libraries(example_zbuffer rasterizer)
 
-add_executable(example_polygon_shading example_polygon_shading.c)
+add_executable(example_polygon_shading example_render_world.c)
 target_link_libraries(example_polygon_shading rasterizer)
+
+add_executable(example_render_world example_render_world.c)
+target_link_libraries(example_render_world rasterizer)
 
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "Release")
     include(CheckIPOSupported)

@@ -87,7 +87,10 @@ Triangle TransformerTransformTriangle(const Transformer *transformer, const Tria
   new.vertexes[0] = TransformerTransformPoint(transformer, new.vertexes[0]);
   new.vertexes[1] = TransformerTransformPoint(transformer, new.vertexes[1]);
   new.vertexes[2] = TransformerTransformPoint(transformer, new.vertexes[2]);
-  new.normal = VectorTriangleNormal(new.vertexes[0], new.vertexes[1], new.vertexes[2]);
+  new.surfaceNormal = VectorTriangleNormal(new.vertexes[0], new.vertexes[1], new.vertexes[2]);
+  new.vertexNormals[0] = VectorL2Normalization(TransformerTransformPoint(transformer, new.vertexNormals[0]));
+  new.vertexNormals[1] = VectorL2Normalization(TransformerTransformPoint(transformer, new.vertexNormals[1]));
+  new.vertexNormals[2] = VectorL2Normalization(TransformerTransformPoint(transformer, new.vertexNormals[2]));
   return new;
 }
 

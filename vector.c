@@ -47,6 +47,8 @@ bool VectorInsideTriangle2D(const Vector v, const Vector v1, const Vector v2, co
 
 Vector VectorTriangleNormal(const Vector v1, const Vector v2, const Vector v3) { return VectorL2Normalization(VectorCrossProduct(VectorSubtraction(v2, v1), VectorSubtraction(v3, v1))); }
 
+Vector VectorTriangleCenterOfGravity(const Vector v1, const Vector v2, const Vector v3) { return VectorScalarDivision(VectorAddition(v1, VectorAddition(v2, v3)), 3); }
+
 /**
  * https://codeplea.com/triangular-interpolation
  * https://en.wikipedia.org/wiki/Barycentric_coordinate_system

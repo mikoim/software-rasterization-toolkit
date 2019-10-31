@@ -45,6 +45,10 @@ Triangle rasterize(const Camera *camera, const Triangle triangle) {
   new.vertexes[0] = NDCPos2ImagePos(camera, WorldPos2NDCPos(camera, new.vertexes[0]));
   new.vertexes[1] = NDCPos2ImagePos(camera, WorldPos2NDCPos(camera, new.vertexes[1]));
   new.vertexes[2] = NDCPos2ImagePos(camera, WorldPos2NDCPos(camera, new.vertexes[2]));
+  new.surfaceNormal = NDCPos2ImagePos(camera, WorldPos2NDCPos(camera, new.surfaceNormal));
+  new.vertexNormals[0] = NDCPos2ImagePos(camera, WorldPos2NDCPos(camera, new.vertexNormals[0]));
+  new.vertexNormals[1] = NDCPos2ImagePos(camera, WorldPos2NDCPos(camera, new.vertexNormals[1]));
+  new.vertexNormals[2] = NDCPos2ImagePos(camera, WorldPos2NDCPos(camera, new.vertexNormals[2]));
   return new;
 }
 
