@@ -220,7 +220,7 @@ bool _SceneRenderWireframe(const Scene *scene, Bitmap *bitmap, bool normals) {
     }
 
     // draw normal vectors
-    if (normals) {
+    if (!normals) {
       continue;
     }
     for (uint64_t triangleIndex = 0; triangleIndex < thing->polygon->triangle; ++triangleIndex) {
