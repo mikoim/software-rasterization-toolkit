@@ -55,8 +55,8 @@ target_link_libraries(example_polygon_rotation rasterizer)
 add_executable(example_zbuffer example_zbuffer.c)
 target_link_libraries(example_zbuffer rasterizer)
 
-add_executable(example_polygon_shading example_render_world.c)
-target_link_libraries(example_polygon_shading rasterizer)
+add_executable(example_render_shading example_render_shading.c)
+target_link_libraries(example_render_shading rasterizer)
 
 add_executable(example_render_world example_render_world.c)
 target_link_libraries(example_render_world rasterizer)
