@@ -30,16 +30,17 @@ bool TransformerUpdateTransformationMatrix(Transformer *transformer) {
   Matrix *_a = MatrixMultiplication(translate, scale);
   Matrix *_b = MatrixMultiplication(_a, rotateX);
   Matrix *_c = MatrixMultiplication(_b, rotateY);
+  Matrix *_d = MatrixMultiplication(_c, rotateZ);
 
   if (transformer->matrix != NULL) {
     MatrixDestroy(transformer->matrix);
   }
-  transformer->matrix = MatrixMultiplication(_c, rotateZ);
+  transformer->matrix = _d;
 
   if (transformer->inverseMatrix != NULL) {
     MatrixDestroy(transformer->inverseMatrix);
   }
-  transformer->inverseMatrix = MatrixInverse(transformer->matrix);
+  transformer->inverseMatrix = MatrixInverse(_d);
 
   MatrixDestroy(_c);
   MatrixDestroy(_b);
@@ -48,8 +49,10 @@ bool TransformerUpdateTransformationMatrix(Transformer *transformer) {
   MatrixDestroy(rotateZ);
   MatrixDestroy(rotateY);
   MatrixDestroy(rotateX);
+
   MatrixDestroy(scale);
   MatrixDestroy(translate);
+
   return true;
 }
 

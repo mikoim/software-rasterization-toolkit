@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "polygon.h"
 #include "hashdict/hashdict.h"
+#include "polygon.h"
 
 Polygon *PolygonReadSTL(const char *filename) {
   Polygon *new = calloc(1, sizeof(Polygon));
@@ -37,7 +37,7 @@ bool PolygonCalculateVertexNormals(Polygon *polygon) {
   const uint64_t triangle = polygon->triangle; // number of triangles
   const uint64_t vertex = triangle * 3;        // number of total vertexes
   Vector *vertexNormals = (Vector *)calloc(vertex, sizeof(Vector));
-  struct dictionary* dic = dic_new(vertex);
+  struct dictionary *dic = dic_new(vertex);
 
   // accumulate surface normal vectors
   uint64_t a = 0;
