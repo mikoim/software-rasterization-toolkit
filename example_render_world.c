@@ -4,8 +4,37 @@
 #include "world.h"
 
 int main() {
+  // image width, height
   const int w = 1000;
   const int h = 1000;
+
+  // define materials
+  const Material monkeyRedMaterial = (Material){V(0.8274, 0.2196, 0.1098), 1, 1, 1, 30};
+  const Material monkeyPurpleMaterial = (Material){V(0.4156, 0.2039, 0.5333), 0.5, 0.5, 0.5, 60};
+  const Material ballMaterial = (Material){V(1, 1, 1), 1, 1, 1, 90};
+
+  // load polygon from STL files
+  Polygon *monkeyPolygon = PolygonReadSTL("models/monkey.stl");
+  Polygon *ballPolygon = PolygonReadSTL("models/ball.stl");
+
+  // calculate vertex normal vectors (if you like to use GouraudShading or PhongShading, you need to call PolygonCalculateVertexNormals)
+  PolygonCalculateVertexNormals(monkeyPolygon);
+  PolygonCalculateVertexNormals(ballPolygon);
+
+  // define object position and transformation in world space
+  Transformer *monkeyRedPos = TransformerCreate(V(0, 0.5, -0.4), V(RADIAN(-45), RADIAN(45), 0), V(0.5, 0.5, 0.5));
+  Transformer *monkeyPurplePos = TransformerCreate(V(0, -0.5, 0.4), V(RADIAN(45), RADIAN(-45), 0), V(0.5, 0.5, 0.5));
+  Transformer *topBallPos = TransformerCreate(V(0, 0.5, 0.4), V(RADIAN(45), RADIAN(-45), 0), V(0.2, 0.2, 0.2));
+  Transformer *bottomBallPos = TransformerCreate(V(0, -0.5, -0.4), V(0, 0, 0), V(0.2, 0.2, 0.2));
+
+  // define object in a world
+  Thing *monkeyRed = ThingCreate(monkeyPolygon, monkeyRedPos, monkeyRedMaterial);
+  Thing *monkeyPurple = ThingCreate(monkeyPolygon, monkeyPurplePos, monkeyPurpleMaterial);
+  Thing *topBall = ThingCreate(ballPolygon, topBallPos, ballMaterial);
+  Thing *bottomBall = ThingCreate(ballPolygon, bottomBallPos, ballMaterial);
+
+  // create perspective camera
+  Camera *camera = CameraPerspectiveProjection(V(2, 0, 0), V(0, 0, 0), V(0, 1, 0), w, h, 0.1, 1000, 60);
 
 #ifdef _OPENMP
 #pragma omp parallel for schedule(dynamic)
@@ -13,44 +42,32 @@ int main() {
   for (int i = 0; i < 360; ++i) {
     Bitmap *bmp = BitmapNewImage(w, h);
 
-    Camera *camera = CameraPerspectiveProjection(V(2, 0, 0), V(0, 0, 0), V(0, 1, 0), w, h, 0.1, 1000, 60);
-
-    Transformer *transformer = TransformerCreate(V0, V(0, RADIAN(i), 0), V1);
-    Vector lightPos = TransformerTransformPoint(transformer, V(10, -10, 0));
-
+    // create point source rotating around objects
+    Transformer *lightTransformer = TransformerCreate(V0, V(RADIAN(i), RADIAN(i), 0), V1);
+    Vector lightPos = TransformerTransformPoint(lightTransformer, V(10, 10, 10));
+    TransformerDestroy(lightTransformer);
     Light light = LightCreatePointLight(V(1, 1, 1), V(1, 1, 1), lightPos);
 
-    const Material cubeMaterial = (Material){V(1, 0, 0), 0.2, 0.2, 1, 30};
-    const Material aliceMaterial = (Material){V(0, 1, 0), 0.4, 0.4, 1, 30};
-    const Material aliceGoldMaterial = (Material){V(0.831373, 0.686275, 0.215686), 1, 1, 1, 60};
-    const Material monkeyMaterial = (Material){V(0, 0, 1), 0.6, 0.6, 1, 30};
-    const Material ballMaterial = (Material){V(1, 1, 1), 1, 1, 1, 30};
-
-    Thing *cube = ThingCreate(PolygonReadSTL("models/cube.stl"), TransformerCreate(V(0, 0.75, 0), V(RADIAN(45), RADIAN(45), RADIAN(45)), V(0.2, 0.2, 0.2)), cubeMaterial);
-    Thing *alice = ThingCreate(PolygonReadSTL("models/alice.stl"), TransformerCreate(V(0, 0, 0.5), V(0, 0, 0), V1), aliceGoldMaterial);
-    Thing *aliceBack = ThingCreate(PolygonReadSTL("models/alice.stl"), TransformerCreate(V(3, -1.5, -0.8), V(0, RADIAN(180), 0), V1), aliceMaterial);
-    Thing *monkey = ThingCreate(PolygonReadSTL("models/monkey.stl"), TransformerCreate(V(0, 0, -0.3), V(RADIAN(-45), RADIAN(45), 0), V(0.5, 0.5, 0.5)), monkeyMaterial);
-
-    Thing *ballTopRight = ThingCreate(PolygonReadSTL("models/ball.stl"), TransformerCreate(V(0, 1, -0.8), V(0, 0, 0), V(0.1, 0.1, 0.1)), ballMaterial);
-    Thing *ballBottomRight = ThingCreate(PolygonReadSTL("models/ball.stl"), TransformerCreate(V(0, -1, -0.8), V(0, 0, 0), V(0.1, 0.1, 0.1)), ballMaterial);
-    Thing *ballTopLeft = ThingCreate(PolygonReadSTL("models/ball.stl"), TransformerCreate(V(0, 1, 0.8), V(0, 0, 0), V(0.1, 0.1, 0.1)), ballMaterial);
-    Thing *ballBottomLeft = ThingCreate(PolygonReadSTL("models/ball.stl"), TransformerCreate(V(0, -1, 0.8), V(0, 0, 0), V(0.1, 0.1, 0.1)), ballMaterial);
-
+    // create empty scene
     Scene *scene = SceneCreateEmpty();
-    SceneSetCamera(scene, camera);
-    SceneAppendLight(scene, &light);
-    SceneAppendThing(scene, cube);
-    SceneAppendThing(scene, alice);
-    SceneAppendThing(scene, aliceBack);
-    SceneAppendThing(scene, monkey);
-    SceneAppendThing(scene, ballTopRight);
-    SceneAppendThing(scene, ballBottomRight);
-    SceneAppendThing(scene, ballTopLeft);
-    SceneAppendThing(scene, ballBottomLeft);
 
+    // set camera
+    SceneSetCamera(scene, camera);
+
+    // append light source to the scene
+    SceneAppendLight(scene, &light);
+
+    // append objects to the scene
+    SceneAppendThing(scene, monkeyRed);
+    SceneAppendThing(scene, monkeyPurple);
+    SceneAppendThing(scene, topBall);
+    SceneAppendThing(scene, bottomBall);
+
+    // create Z-buffer
     ZBuffer *zbuffer = ZBufferCreate(w, h);
 
-    SceneRender(scene, bmp, zbuffer, WorldRender, GouraudShading, BlinnPhongReflectionModel);
+    // render scene to Bitmap
+    SceneRender(scene, bmp, zbuffer, WorldRender, PhongShading, BlinnPhongReflectionModel);
 
     SceneDestroy(scene);
 
@@ -62,6 +79,21 @@ int main() {
     BitmapWriteFile(bmp, buf);
     BitmapDestroy(bmp);
   }
+
+  CameraDestroy(camera);
+
+  ThingDestroy(bottomBall);
+  ThingDestroy(topBall);
+  ThingDestroy(monkeyPurple);
+  ThingDestroy(monkeyRed);
+
+  TransformerDestroy(bottomBallPos);
+  TransformerDestroy(topBallPos);
+  TransformerDestroy(monkeyPurplePos);
+  TransformerDestroy(monkeyRedPos);
+
+  PolygonDestroy(ballPolygon);
+  PolygonDestroy(monkeyPolygon);
 
   return 0;
 }
