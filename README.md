@@ -82,8 +82,10 @@ make
 <video src="examples/shadings.mp4" controls></video>
 #### Rendering world
 [here](examples/world.webm)
+[here](examples/phong.mp4)
 
 <video src="examples/world.webm" controls></video>
+<video src="examples/phong.mp4" controls></video>
 
 ## 3D models
 - alice.stl (unknown author, license): "Alice and skulls free 3d model" http://3dmag.org/en/market/item/3861/
