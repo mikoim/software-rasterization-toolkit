@@ -48,7 +48,7 @@ Software rasterizer written in C.
 ```bash
 git clone --recursive https://github.com/mikoim/software-rasterization-toolkit.git
 cd software-rasterization-toolkit
-cmake .
+cmake -DCMAKE_BUILD_TYPE=Release .
 make
 ```
 
