@@ -62,8 +62,6 @@ bool ThingDestroy(Thing *thing) {
 #endif
     return false;
   }
-  PolygonDestroy(thing->polygon);
-  TransformerDestroy(thing->transformer);
   free(thing);
   return true;
 }
@@ -74,16 +72,7 @@ Scene *SceneCreateEmpty() {
 }
 
 bool SceneDestroy(Scene *scene) {
-  CameraDestroy(scene->camera);
-  uint64_t thingCount = scene->thing;
-  for (uint64_t i = 0; i < thingCount; ++i) {
-    ThingDestroy(scene->things[i]);
-  }
   free(scene->things);
-  uint64_t lightCount = scene->light;
-  for (uint64_t i = 0; i < lightCount; ++i) {
-    // TODO: call LightDestroy() here
-  }
   free(scene->lights);
   free(scene);
   return true;
