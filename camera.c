@@ -44,10 +44,10 @@ bool CameraDestroy(Camera *camera) {
 #endif
     return false;
   }
-  free(camera->world2camera);
-  free(camera->camera2ndc);
-  free(camera->world2ndc);
-  free(camera->ndc2world);
+  MatrixDestroy(camera->world2camera);
+  MatrixDestroy(camera->camera2ndc);
+  MatrixDestroy(camera->world2ndc);
+  MatrixDestroy(camera->ndc2world);
   free(camera);
   return true;
 }

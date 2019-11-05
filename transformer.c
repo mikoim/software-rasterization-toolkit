@@ -67,7 +67,8 @@ bool TransformerDestroy(Transformer *transformer) {
 #endif
     return false;
   }
-  free(transformer->matrix);
+  MatrixDestroy(transformer->matrix);
+  MatrixDestroy(transformer->inverseMatrix);
   free(transformer);
   return true;
 }
