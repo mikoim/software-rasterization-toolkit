@@ -6,10 +6,12 @@
 #include "matrix.h"
 
 Matrix *MatrixZero(uint32_t rows, uint32_t columns) {
+#ifndef NDEBUG
   if (rows == 0 || columns == 0) {
     fprintf(stderr, "%s: Invalid dimension (%dx%d >= 1x1)\n", __FUNCTION_NAME__, rows, columns);
     return NULL;
   }
+#endif
   Matrix *new = (Matrix *)calloc(1, sizeof(Matrix));
   *new = (Matrix){rows, columns, NULL};
   new->matrix = (Real *)calloc(1, sizeof(Real) * rows * columns);
@@ -17,30 +19,34 @@ Matrix *MatrixZero(uint32_t rows, uint32_t columns) {
 }
 
 bool MatrixDestroy(Matrix *a) {
-  if (a == NULL) {
 #ifndef NDEBUG
+  if (a == NULL) {
     fprintf(stderr, "%s: trying to free null pointer, ignored.\n", __FUNCTION_NAME__);
-#endif
     return false;
   }
+#endif
   free(a->matrix);
   free(a);
   return true; // TODO: implement error handling
 }
 
 Real MatrixGetElement(const Matrix *a, uint32_t rows, uint32_t columns) {
+#ifndef NDEBUG
   if (a->rows <= rows || a->columns <= columns) {
     fprintf(stderr, "%s: Invalid element indices (rows:%d<%d, columns:%d<%d)\n", __FUNCTION_NAME__, rows, a->rows, columns, a->columns);
     return false;
   }
+#endif
   return a->matrix[columns + a->columns * rows];
 }
 
 bool MatrixSetElement(Matrix *a, uint32_t rows, uint32_t columns, Real value) {
+#ifndef NDEBUG
   if (a->rows <= rows || a->columns <= columns) {
     fprintf(stderr, "%s: Invalid element indices (rows:%d<%d, columns:%d<%d)\n", __FUNCTION_NAME__, rows, a->rows, columns, a->columns);
     return false;
   }
+#endif
   a->matrix[columns + a->columns * rows] = value;
   return true;
 }
@@ -58,18 +64,22 @@ void MatrixPrint(const Matrix *a) {
 }
 
 bool MatrixCompare(const Matrix *a, const Matrix *b) {
+#ifndef NDEBUG
   if (a->rows != b->rows || a->columns != b->columns) {
     fprintf(stderr, "%s: Invalid dimension (%dx%d == %dx%d)\n", __FUNCTION_NAME__, a->rows, a->columns, b->rows, b->columns);
     return false;
   }
+#endif
   return memcmp(a->matrix, b->matrix, sizeof(Real) * a->rows * a->columns) == 0 ? true : false;
 }
 
 bool MatrixCompareLoose(const Matrix *a, const Matrix *b, Real error) {
+#ifndef NDEBUG
   if (a->rows != b->rows || a->columns != b->columns) {
     fprintf(stderr, "%s: Invalid dimension (%dx%d == %dx%d)\n", __FUNCTION_NAME__, a->rows, a->columns, b->rows, b->columns);
     return false;
   }
+#endif
   for (uint32_t row = 0; row < a->rows; ++row) {
     for (uint32_t col = 0; col < a->columns; ++col) {
       if (fabsl(MatrixGetElement(a, row, col) - MatrixGetElement(b, row, col)) >= error) {
@@ -97,10 +107,12 @@ Matrix *MatrixFromArray(uint32_t rows, uint32_t columns, const Real array[rows][
 }
 
 Matrix *MatrixIdentity(uint32_t n) {
+#ifndef NDEBUG
   if (n == 0) {
     fprintf(stderr, "%s: Invalid dimension (0x0 >= 1x1)\n", __FUNCTION_NAME__);
     return NULL;
   }
+#endif
   Matrix *new = MatrixZero(n, n);
   /*
    * n=1 -> 0
@@ -126,10 +138,12 @@ Matrix *MatrixTranspose(const Matrix *a) {
 }
 
 Real MatrixDeterminant(const Matrix *a) {
+#ifndef NDEBUG
   if (a->rows != a->columns || a->rows == 0 || a->rows > 5) {
     fprintf(stderr, "%s: Unsupported dimension (%dx%d)\n", __FUNCTION_NAME__, a->rows, a->columns);
     return 0;
   }
+#endif
   Real *m = a->matrix;
   switch (a->rows) {
   case 1:
@@ -174,10 +188,12 @@ Real MatrixDeterminant(const Matrix *a) {
 }
 
 Matrix *MatrixInverse(const Matrix *a) {
+#ifndef NDEBUG
   if (a->rows != a->columns || a->rows == 0 || a->rows > 5) {
     fprintf(stderr, "%s: Unsupported dimension (%dx%d)\n", __FUNCTION_NAME__, a->rows, a->columns);
     return NULL;
   }
+#endif
   Real *m = a->matrix;
   Real d = MatrixDeterminant(a);
   if (a->rows == 1) {
@@ -341,10 +357,12 @@ Matrix *MatrixInverse(const Matrix *a) {
 }
 
 Matrix *MatrixAddition(const Matrix *a, const Matrix *b) {
+#ifndef NDEBUG
   if (a->rows != b->rows || a->columns != b->columns) {
     fprintf(stderr, "%s: Invalid dimension (%dx%d == %dx%d)\n", __FUNCTION_NAME__, a->rows, a->columns, b->rows, b->columns);
     return NULL;
   }
+#endif
   Matrix *new = MatrixClone(a);
   for (uint64_t index = 0; index < new->rows * new->columns; ++index) {
     new->matrix[index] += b->matrix[index];
@@ -353,10 +371,12 @@ Matrix *MatrixAddition(const Matrix *a, const Matrix *b) {
 }
 
 Matrix *MatrixSubtraction(const Matrix *a, const Matrix *b) {
+#ifndef NDEBUG
   if (a->rows != b->rows || a->columns != b->columns) {
     fprintf(stderr, "%s: Invalid dimension (%dx%d == %dx%d)\n", __FUNCTION_NAME__, a->rows, a->columns, b->rows, b->columns);
     return NULL;
   }
+#endif
   Matrix *new = MatrixClone(a);
   for (uint64_t index = 0; index < new->rows * new->columns; ++index) {
     new->matrix[index] -= b->matrix[index];
@@ -365,10 +385,12 @@ Matrix *MatrixSubtraction(const Matrix *a, const Matrix *b) {
 }
 
 Matrix *MatrixMultiplication(const Matrix *a, const Matrix *b) {
+#ifndef NDEBUG
   if (a->columns != b->rows) {
     fprintf(stderr, "%s: Invalid dimension (%dx\"%d\" == \"%d\"x%d)\n", __FUNCTION_NAME__, a->rows, a->columns, b->rows, b->columns);
     return NULL;
   }
+#endif
   Matrix *new = MatrixZero(a->rows, b->columns);
   for (uint32_t i = 0; i < a->rows; ++i) {
     for (uint32_t j = 0; j < b->columns; ++j) {
