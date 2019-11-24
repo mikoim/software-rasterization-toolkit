@@ -184,6 +184,9 @@ Real MatrixDeterminant(const Matrix *a) {
                    m[9] * (-m[12] * m[16] * m[20] + m[11] * m[17] * m[20] + m[12] * m[15] * m[21] - m[10] * m[17] * m[21] - m[11] * m[15] * m[22] + m[10] * m[16] * m[22]) -
                    m[6] * m[12] * m[15] * m[24] + m[5] * m[12] * m[16] * m[24] + m[6] * m[10] * m[17] * m[24] - m[5] * m[11] * m[17] * m[24] +
                    m[7] * (m[14] * m[16] * m[20] - m[11] * m[19] * m[20] - m[14] * m[15] * m[21] + m[10] * m[19] * m[21] + m[11] * m[15] * m[24] - m[10] * m[16] * m[24]));
+  default:
+    fprintf(stderr, "%s: Unsupported dimension (%dx%d). BUG!\n", __FUNCTION_NAME__, a->rows, a->columns);
+    return 0;
   }
 }
 
