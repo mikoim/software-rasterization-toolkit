@@ -28,10 +28,10 @@ int main() {
   Transformer *bottomBallPos = TransformerCreate(V(0, -0.5, -0.4), V(0, 0, 0), V(0.2, 0.2, 0.2));
 
   // define object in a world
-  Thing *monkeyRed = ThingCreate(monkeyPolygon, monkeyRedPos, monkeyRedMaterial);
-  Thing *monkeyPurple = ThingCreate(monkeyPolygon, monkeyPurplePos, monkeyPurpleMaterial);
-  Thing *topBall = ThingCreate(ballPolygon, topBallPos, ballMaterial);
-  Thing *bottomBall = ThingCreate(ballPolygon, bottomBallPos, ballMaterial);
+  Thing *monkeyRed = ThingCreate(monkeyPolygon, monkeyRedPos, &monkeyRedMaterial);
+  Thing *monkeyPurple = ThingCreate(monkeyPolygon, monkeyPurplePos, &monkeyPurpleMaterial);
+  Thing *topBall = ThingCreate(ballPolygon, topBallPos, &ballMaterial);
+  Thing *bottomBall = ThingCreate(ballPolygon, bottomBallPos, &ballMaterial);
 
   // create perspective camera
   Camera *camera = CameraPerspectiveProjection(V(2, 0, 0), V(0, 0, 0), V(0, 1, 0), w, h, 0.1, 1000, 60);

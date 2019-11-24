@@ -32,7 +32,7 @@ typedef struct tagMaterial {
 
 typedef struct tagThing {
   Polygon *polygon;
-  Material material;
+  const Material *material;
   Transformer *transformer;
 } Thing;
 
@@ -50,7 +50,7 @@ Light LightCreateDirectionalLight(Color specular, Color diffuse, Vector directio
 Vector LightGetDirection(Light light, Vector position);
 Vector LightGetPosition(Light light);
 
-Thing *ThingCreate(Polygon *polygon, Transformer *transformer, Material material);
+Thing *ThingCreate(Polygon *polygon, Transformer *transformer, const Material *material);
 bool ThingDestroy(Thing *thing);
 
 Scene *SceneCreateEmpty();

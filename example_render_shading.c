@@ -24,7 +24,7 @@ int main() {
 
     Polygon *polygon = PolygonReadSTL("models/ball.stl");
     PolygonCalculateVertexNormals(polygon);
-    Thing *thing = ThingCreate(polygon, TransformerCreate(V(0, 0, 0), V(0, 0, 0), V(0.5, 0.5, 0.5)), goldMaterial);
+    Thing *thing = ThingCreate(polygon, TransformerCreate(V(0, 0, 0), V(0, 0, 0), V(0.5, 0.5, 0.5)), &goldMaterial);
 
     Scene *scene = SceneCreateEmpty();
     SceneSetCamera(scene, camera);

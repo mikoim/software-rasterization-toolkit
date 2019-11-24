@@ -47,7 +47,7 @@ Vector LightGetPosition(const Light light) {
   }
 }
 
-Thing *ThingCreate(Polygon *polygon, Transformer *transformer, const Material material) {
+Thing *ThingCreate(Polygon *polygon, Transformer *transformer, const Material *material) {
   Thing *new = (Thing *)calloc(1, sizeof(Thing));
   new->polygon = polygon;
   new->material = material;
@@ -285,45 +285,45 @@ bool _SceneRenderPhong(const Scene *scene, Bitmap *bitmap, ZBuffer *zbuffer, Col
 }
 
 Color _PhongReflectionModel(const Scene *scene, const Thing *thing, const Vector surfacePosition, const Vector normal) {
-  Color illumination = VectorScalarMultiplication(V(0.1, 0.1, 0.1), thing->material.ambient);
+  Color illumination = VectorScalarMultiplication(V(0.1, 0.1, 0.1), thing->material->ambient);
   for (uint64_t lightIndex = 0; lightIndex < scene->light; ++lightIndex) {
     const Light *light = scene->lights[lightIndex];
 
     const Real corr = fmaxl(VectorDotProduct(LightGetDirection(*light, surfacePosition), normal), 0); // negative value must be ignored
     const Vector R_m = VectorSubtraction(VectorScalarMultiplication(normal, 2 * corr), normal);
 
-    Color diffuse = VectorScalarMultiplication(light->diffuse, fmaxl(thing->material.diffuse * corr, 0));
+    Color diffuse = VectorScalarMultiplication(light->diffuse, fmaxl(thing->material->diffuse * corr, 0));
     Color specular =
-        VectorScalarMultiplication(light->specular, thing->material.specular * fmaxl(powl(VectorDotProduct(R_m, CameraGetDirection(scene->camera, surfacePosition)), thing->material.shininess), 0));
+        VectorScalarMultiplication(light->specular, thing->material->specular * fmaxl(powl(VectorDotProduct(R_m, CameraGetDirection(scene->camera, surfacePosition)), thing->material->shininess), 0));
 
     illumination = VectorAddition(illumination, VectorAddition(diffuse, specular));
   }
 
   illumination = VectorConfine(illumination, 0, 1); // limit range [0-1]
 
-  return V(illumination.x * thing->material.color.x, illumination.y * thing->material.color.y, illumination.z * thing->material.color.z);
+  return V(illumination.x * thing->material->color.x, illumination.y * thing->material->color.y, illumination.z * thing->material->color.z);
 }
 
 Color _BlinnPhongReflectionModel(const Scene *scene, const Thing *thing, const Vector surfacePosition, const Vector normal) {
-  Color illumination = VectorScalarMultiplication(V(0.1, 0.1, 0.1), thing->material.ambient);
+  Color illumination = VectorScalarMultiplication(V(0.1, 0.1, 0.1), thing->material->ambient);
   for (uint64_t lightIndex = 0; lightIndex < scene->light; ++lightIndex) {
     const Light *light = scene->lights[lightIndex];
 
     const Real corr = fmaxl(VectorDotProduct(LightGetDirection(*light, surfacePosition), normal), 0); // negative value must be ignored
     const Vector H = VectorL2Normalization(VectorAddition(LightGetDirection(*light, surfacePosition), CameraGetDirection(scene->camera, surfacePosition)));
 
-    Color diffuse = VectorScalarMultiplication(light->diffuse, fmaxl(thing->material.diffuse * corr, 0));
-    Color specular = VectorScalarMultiplication(light->specular, thing->material.specular * fmaxl(powl(VectorDotProduct(normal, H), thing->material.shininess), 0));
+    Color diffuse = VectorScalarMultiplication(light->diffuse, fmaxl(thing->material->diffuse * corr, 0));
+    Color specular = VectorScalarMultiplication(light->specular, thing->material->specular * fmaxl(powl(VectorDotProduct(normal, H), thing->material->shininess), 0));
 
     illumination = VectorAddition(illumination, VectorAddition(diffuse, specular));
   }
 
   illumination = VectorConfine(illumination, 0, 1); // limit range [0 - 1]
 
-  return V(illumination.x * thing->material.color.x, illumination.y * thing->material.color.y, illumination.z * thing->material.color.z);
+  return V(illumination.x * thing->material->color.x, illumination.y * thing->material->color.y, illumination.z * thing->material->color.z);
 }
 
-Color _NullReflectionModel(const Scene *scene, const Thing *thing, const Vector surfacePosition, const Vector normal) { return thing->material.color; }
+Color _NullReflectionModel(const Scene *scene, const Thing *thing, const Vector surfacePosition, const Vector normal) { return thing->material->color; }
 
 bool SceneRender(const Scene *scene, Bitmap *bitmap, ZBuffer *zbuffer, RenderType renderType, ShadingType shadingType, ReflectionModelType reflectionModelType) {
   void *reflectionFunc = NULL;
