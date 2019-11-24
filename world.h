@@ -11,7 +11,7 @@ typedef Vector Color; // RGB [0 - 1]
 
 typedef enum { PointLight, DirectionalLight } LightType;
 typedef enum { NullReflectionModel, PhongReflectionModel, BlinnPhongReflectionModel } ReflectionModelType;
-typedef enum { FlatShading, GouraudShading, PhongShading } ShadingType;
+typedef enum { NullShading, FlatShading, GouraudShading, PhongShading } ShadingType;
 typedef enum { WireframeRender, WireframeNormalsRender, WorldRender } RenderType;
 
 typedef struct tagLight {

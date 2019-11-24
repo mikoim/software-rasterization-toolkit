@@ -349,6 +349,8 @@ bool SceneRender(const Scene *scene, Bitmap *bitmap, ZBuffer *zbuffer, RenderTyp
     return _SceneRenderWireframe(scene, bitmap, true);
   case WorldRender:
     switch (shadingType) {
+    case NullShading:
+      return _SceneRenderFlat(scene, bitmap, zbuffer, _NullReflectionModel);
     case FlatShading:
       return _SceneRenderFlat(scene, bitmap, zbuffer, reflectionFunc);
     case GouraudShading:
