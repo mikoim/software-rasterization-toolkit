@@ -87,6 +87,12 @@ Vector TransformerTransformPoint(const Transformer *transformer, const Vector po
 }
 
 Triangle TransformerTransformTriangle(const Transformer *transformer, const Triangle triangle) {
+  if (transformer == NULL) {
+#ifndef NDEBUG
+    fprintf(stderr, "%s: NULL pointer passed. ignored.\n", __FUNCTION_NAME__);
+#endif
+    return triangle;
+  }
   Triangle new = triangle;
   new.vertexes[0] = TransformerTransformPoint(transformer, new.vertexes[0]);
   new.vertexes[1] = TransformerTransformPoint(transformer, new.vertexes[1]);
