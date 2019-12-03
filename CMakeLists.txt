@@ -14,6 +14,8 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}")
 
 add_library(hashdict hashdict/hashdict.c hashdict/hashdict.h)
 
+add_library(linkedlist linkedlist.c linkedlist.h)
+
 add_library(bitmap bitmap.c bitmap.h)
 
 add_library(matrix matrix.c matrix.h)
