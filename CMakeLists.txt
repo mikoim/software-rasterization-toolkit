@@ -5,7 +5,7 @@ set(CMAKE_C_STANDARD 99)
 
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 
-set(CMAKE_C_FLAGS "-Wall -Wextra")
+set(CMAKE_C_FLAGS "-Werror -Wall -Wextra")
 set(CMAKE_C_FLAGS_DEBUG "-Og -g3")
 set(CMAKE_C_FLAGS_RELEASE "-O3 -g3 -march=native -DNDEBUG")
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS}")
