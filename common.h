@@ -33,4 +33,6 @@ typedef unsigned __int64 uint64_t;
 
 typedef long double Real;
 
+#define UNUSED(x) (void)(x)
+
 #endif // RENDER_COMMON_H
