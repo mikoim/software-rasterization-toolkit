@@ -87,6 +87,16 @@ make
 
 ![](examples/shading.png)
 
+![](examples/csg_ball.png)
+
+![](examples/csg_cube.png)
+
+![](examples/csg_cylinder.png)
+
+![](examples/csg_triangular.png)
+
+![](examples/csg_union.png)
+
 ### Video
 #### Rendering polygon wire-frames
 [here](examples/wireframe.mp4)
