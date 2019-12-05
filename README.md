@@ -3,7 +3,7 @@ Software rasterizer written in C.
 
 ## Features
 - File
-    - Bitmap reader / writer
+    - Bitmap reader / ~~writer~~
     - STL reader / ~~writer~~
 - 3DCG
     - Perspective camera
@@ -16,6 +16,18 @@ Software rasterizer written in C.
         - Flat shading
         - Gouraud shading
         - Phong shading
+    - CSG
+        - Primitives
+            - Triangle
+            - Plane
+            - Cube
+            - Cylinder
+            - Triangular    
+            - Ball
+        - Operations
+            - Union
+            - ~~Difference~~ (NOT IMPLEMENTED, NEED HELP)
+            - ~~Intersection~~ (NOT IMPLEMENTED, NEED HELP)
 - Matrix
     - Transpose
     - Determinant
@@ -57,6 +69,10 @@ make
 - File format: STL (**binary**)
 - Forward: **X Forward**
 - Up: **Y Up**
+
+## Known issues
+- clang may break ``PolygonCalculateVertexNormals``. (tested on 9.0.0)
+- Sometimes, small gaps appear on polygons if the camera is right in front.
 
 ## Examples
 ![](examples/hue_scale.png)
