@@ -324,10 +324,10 @@ Color _BlinnPhongReflectionModel(const Scene *scene, const Thing *thing, const V
 }
 
 Color _NullReflectionModel(const Scene *scene, const Thing *thing, const Vector surfacePosition, const Vector normal) {
-    UNUSED(scene);
-    UNUSED(surfacePosition);
-    UNUSED(normal);
-    return thing->material->color;
+  UNUSED(scene);
+  UNUSED(surfacePosition);
+  UNUSED(normal);
+  return thing->material->color;
 }
 
 bool SceneRender(const Scene *scene, Bitmap *bitmap, ZBuffer *zbuffer, RenderType renderType, ShadingType shadingType, ReflectionModelType reflectionModelType) {
