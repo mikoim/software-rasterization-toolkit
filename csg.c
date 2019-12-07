@@ -170,7 +170,6 @@ void CSGPrimitiveBallReduce(CSGSets *sets, const CSGBall *ball) {
   for (uint64_t hemisphereIndex = 0; hemisphereIndex < p; ++hemisphereIndex) {
     for (roundIndex = 0; roundIndex < p; ++roundIndex) {
       Real x, y, z, rad, radSurface;
-
       rad = 2 * M_PI * roundIndex / p;
       radSurface = M_PI * hemisphereIndex / p;
 
@@ -187,9 +186,17 @@ void CSGPrimitiveBallReduce(CSGSets *sets, const CSGBall *ball) {
       bottoms[roundIndex] = V(x, y, z);
     }
     for (roundIndex = 0; roundIndex < p; ++roundIndex) {
-      Vector backFace[4] = {tops[(roundIndex + 1) % p], tops[roundIndex], bottoms[roundIndex], bottoms[(roundIndex + 1) % p]};
       // Calculating surface normal, four points must be on same plane.
-      CSGPrimitiveSetsAppend(sets, (CSGPrimitive *)CSGPrimitivePlaneCreate(backFace, VectorTriangleNormal(backFace[0], backFace[1], backFace[2])));
+      if (hemisphereIndex == 0) { // top
+        Vector triangle[3] = {bottoms[(roundIndex + 1) % p], V(0, 2 * r, 0), bottoms[roundIndex]};
+        CSGPrimitiveSetsAppend(sets, (CSGPrimitive *)CSGPrimitiveTriangleCreate(triangle, VectorTriangleNormal(triangle[0], triangle[1], triangle[2])));
+      } else if (hemisphereIndex == p - 1) { // bottom
+        Vector triangle[3] = {tops[(roundIndex + 1) % p], V(0, 0, 0), tops[roundIndex]};
+        CSGPrimitiveSetsAppend(sets, (CSGPrimitive *)CSGPrimitiveTriangleCreate(triangle, VectorTriangleNormal(triangle[0], triangle[1], triangle[2])));
+      } else { // rest of ball polygons
+        Vector plain[4] = {tops[(roundIndex + 1) % p], tops[roundIndex], bottoms[roundIndex], bottoms[(roundIndex + 1) % p]};
+        CSGPrimitiveSetsAppend(sets, (CSGPrimitive *)CSGPrimitivePlaneCreate(plain, VectorTriangleNormal(plain[0], plain[1], plain[2])));
+      }
     }
   }
 
