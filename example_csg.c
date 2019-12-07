@@ -9,7 +9,7 @@ int main() {
   // CSGPrimitiveSetsAppend(csgSets, (CSGPrimitive *)CSGPrimitiveCubeCreate(2));
   // CSGPrimitiveSetsAppend(csgSets, (CSGPrimitive *)CSGPrimitiveCylinderCreate(1, 2, 128));
   // CSGPrimitiveSetsAppend(csgSets, (CSGPrimitive *)CSGPrimitiveTriangularCreate(1, 3, 128));
-  CSGPrimitiveSetsAppend(csgSets, (CSGPrimitive *)CSGPrimitiveBallCreate(1, 16));
+  CSGPrimitiveSetsAppend(csgSets, (CSGPrimitive *)CSGPrimitiveBallCreate(1, 8));
   CSGPrimitiveSetsReduce(csgSets);
 
   // convert CSG primitive set to polygon
@@ -19,7 +19,7 @@ int main() {
   // now, CSG primitive set can be destroyed
   CSGPrimitiveSetsDestroy(csgSets);
 
-  for (int i = 0; i < 2; ++i) {
+  for (int i = 0; i < 90; ++i) {
     const int w = 1000, h = 1000;
     Bitmap *bmp = BitmapNewImage(w, h);
 
@@ -42,8 +42,8 @@ int main() {
     Light light = LightCreatePointLight(V(1, 1, 1), V(1, 1, 1), V(0, -6, 3));
     SceneAppendLight(scene, &light);
 
-    const Material monkeyRedMaterial = (Material){V(0.8274, 0.2196, 0.1098), 1, 1, 1, 30};
-    Thing *thing = ThingCreate(polygon, transformer, &monkeyRedMaterial);
+    const Material redMaterial = (Material){V(0.8274, 0.2196, 0.1098), 1, 1, 1, 30};
+    Thing *thing = ThingCreate(polygon, transformer, &redMaterial);
     SceneAppendThing(scene, thing);
 
     // render scene to Bitmap
