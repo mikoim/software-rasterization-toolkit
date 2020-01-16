@@ -3,19 +3,23 @@ Software rasterizer written in C.
 
 ## Features
 - File
-    - Bitmap reader / ~~writer~~
+    - Bitmap ~~reader~~ / writer
     - STL reader / ~~writer~~
 - 3DCG
     - Perspective camera
+    - Light source
+        - Point light
+        - Directional light
     - Rendering
         - Z-buffer (depth buffer)
-    - Reflection model
-        - Phong reflection model
-        - Blinn phong reflection model
-    - Shading
-        - Flat shading
-        - Gouraud shading
-        - Phong shading
+        - Shading
+            - Solid shading
+            - Flat shading
+            - Gouraud shading
+            - Phong shading
+        - Reflection model
+            - Phong reflection model
+            - Blinn phong reflection model
     - CSG
         - Primitives
             - Triangle
