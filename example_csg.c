@@ -19,7 +19,7 @@ int main() {
   // now, CSG primitive set can be destroyed
   CSGPrimitiveSetsDestroy(csgSets);
 
-  for (int i = 0; i < 90; ++i) {
+  for (int i = 0; i < 360; ++i) {
     const int w = 1000, h = 1000;
     Bitmap *bmp = BitmapNewImage(w, h);
 
@@ -35,13 +35,12 @@ int main() {
     // create Z-buffer
     ZBuffer *zbuffer = ZBufferCreate(w, h);
 
-    // append CSG primitive to scene
-    Transformer *transformer = TransformerCreate(V0, V(0, RADIAN(i), 0), V1);
-
-    // append light
+    // append light to scene
     Light light = LightCreatePointLight(V(1, 1, 1), V(1, 1, 1), V(0, -6, 3));
     SceneAppendLight(scene, &light);
 
+    // append CSG primitive to scene
+    Transformer *transformer = TransformerCreate(V0, V(0, RADIAN(i), 0), V1);
     const Material redMaterial = (Material){V(0.8274, 0.2196, 0.1098), 1, 1, 1, 30};
     Thing *thing = ThingCreate(polygon, transformer, &redMaterial);
     SceneAppendThing(scene, thing);
@@ -49,6 +48,7 @@ int main() {
     // render scene to Bitmap
     SceneRender(scene, bmp, zbuffer, WorldRender, GouraudShading, PhongReflectionModel);
 
+    // save image to Bitmap file
     char buf[100];
     sprintf(buf, "csg_%03d.bmp", i);
     BitmapWriteFile(bmp, buf);

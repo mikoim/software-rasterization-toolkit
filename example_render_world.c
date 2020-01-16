@@ -51,7 +51,7 @@ int main() {
     // create empty scene
     Scene *scene = SceneCreateEmpty();
 
-    // set camera
+    // set camera to the scene
     SceneSetCamera(scene, camera);
 
     // append light source to the scene
@@ -69,14 +69,14 @@ int main() {
     // render scene to Bitmap
     SceneRender(scene, bmp, zbuffer, WorldRender, PhongShading, BlinnPhongReflectionModel);
 
-    SceneDestroy(scene);
-
-    ZBufferDestroy(zbuffer);
-
+    // save image to Bitmap file
     char buf[100];
     sprintf(buf, "render_world_%d.bmp", i);
-
     BitmapWriteFile(bmp, buf);
+
+    // clean-up
+    SceneDestroy(scene);
+    ZBufferDestroy(zbuffer);
     BitmapDestroy(bmp);
   }
 
