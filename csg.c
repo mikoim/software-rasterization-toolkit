@@ -58,14 +58,14 @@ CSGCylinder *CSGPrimitiveCylinderCreate(Real radius, Real height, uint64_t parti
   return cylinder;
 }
 
-CSGCylinder *CSGPrimitiveTriangularCreate(Real radius, Real height, uint64_t partition) {
+CSGTriangular *CSGPrimitiveTriangularCreate(Real radius, Real height, uint64_t partition) {
   if (partition < 3) {
 #ifndef NDEBUG
     fprintf(stderr, "%s: \"partition\" must be more than 3. (%ld >= 3) \n", __FUNCTION_NAME__, partition);
 #endif
     return NULL;
   }
-  CSGCylinder *triangular = (CSGCylinder *)calloc(1, sizeof(CSGCylinder));
+  CSGTriangular *triangular = (CSGCylinder *)calloc(1, sizeof(CSGCylinder));
   *triangular = (CSGTriangular){CSG_Triangular, radius, height, partition};
   return triangular;
 }
@@ -138,11 +138,11 @@ void CSGPrimitiveCylinderReduce(CSGSets *sets, const CSGCylinder *cylinder) {
   free(bottoms);
 };
 
-void CSGPrimitiveTriangularReduce(CSGSets *sets, const CSGCylinder *cylinder) {
-  uint64_t p = cylinder->partition;
-  Real r = cylinder->radius;
+void CSGPrimitiveTriangularReduce(CSGSets *sets, const CSGTriangular *triangular) {
+  uint64_t p = triangular->partition;
+  Real r = triangular->radius;
   Vector bottomCenter = V0;
-  Vector topCenter = V(0, cylinder->height, 0);
+  Vector topCenter = V(0, triangular->height, 0);
   Vector *bottoms = (Vector *)calloc(p, sizeof(Vector));
   for (uint64_t j = 0; j < p; ++j) {
     Real x = 2 * M_PI * j / p;

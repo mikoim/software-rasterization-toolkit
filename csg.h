@@ -53,7 +53,7 @@ CSGTriangle *CSGPrimitiveTriangleCreate(Vector vertexes[3], Vector surfaceNormal
 CSGPlane *CSGPrimitivePlaneCreate(Vector vertexes[4], Vector surfaceNormal);
 CSGCube *CSGPrimitiveCubeCreate(Real size);
 CSGCylinder *CSGPrimitiveCylinderCreate(Real radius, Real height, uint64_t partition);
-CSGCylinder *CSGPrimitiveTriangularCreate(Real radius, Real height, uint64_t partition);
+CSGTriangular *CSGPrimitiveTriangularCreate(Real radius, Real height, uint64_t partition);
 CSGBall *CSGPrimitiveBallCreate(Real radius, uint64_t partition);
 
 void CSGPrimitivePlaneReduce(CSGSets *sets, const CSGPlane *plane);
