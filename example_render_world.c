@@ -37,7 +37,7 @@ int main() {
   Camera *camera = CameraPerspectiveProjection(V(2, 0, 0), V(0, 0, 0), V(0, 1, 0), w, h, 0.1, 1000, 60);
 
 #ifdef _OPENMP
-#pragma omp parallel for schedule(dynamic)
+#pragma omp parallel for default(none) schedule(dynamic) shared(camera, monkeyRed, monkeyPurple, topBall, bottomBall)
 #endif
   for (int i = 0; i < 360; ++i) {
     Bitmap *bmp = BitmapNewImage(w, h);
